@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Visual Gesso</title>
+    <style>
+        :root {
+            --primaria: #FF6600;
+            --fundo: #f4f4f9;
+            --texto: #333;
+            --painel: #ffffff;
+        }
+        body { font-family: Arial, sans-serif; margin: 0; background: var(--fundo); color: var(--texto); display: flex; }
+        
+        /* Menu Lateral */
+        aside { width: 250px; background: #111; color: white; height: 100vh; padding: 20px 0; position: fixed; }
+        aside img { width: 80%; margin: 0 auto 20px; display: block; }
+        aside ul { list-style: none; padding: 0; }
+        aside li { padding: 15px 20px; cursor: pointer; border-left: 4px solid transparent; transition: 0.3s; }
+        aside li:hover, aside li.ativo { background: #222; border-left-color: var(--primaria); color: var(--primaria); font-weight: bold; }
+
+        /* Área de Conteúdo */
+        main { margin-left: 250px; padding: 30px; width: 100%; }
+        .aba-conteudo { display: none; background: var(--painel); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .aba-conteudo.ativo { display: block; }
+
+        /* Elementos de Interface */
+        h2 { color: #111; margin-top: 0; }
+        .stats-cards { display: flex; gap: 20px; margin-bottom: 20px; }
+        .card { flex: 1; background: #eee; padding: 20px; border-radius: 8px; text-align: center; font-size: 1.2rem; }
+        .card span { display: block; font-size: 2rem; font-weight: bold; color: var(--primaria); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f8f8; }
+        
+        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; }
+        .btn-verde { background: #28a745; }
+        .btn-vermelho { background: #dc3545; }
+        .btn-azul { background: #007bff; }
+        .btn-laranja { background: var(--primaria); }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        .carrossel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; }
+        .carrossel-grid img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <img src="logo.png" alt="Logo Admin">
+        <ul>
+            <li class="aba-btn ativo" onclick="abrirAba('aba-depoimentos', this)">Depoimentos</li>
+            <li class="aba-btn" onclick="abrirAba('aba-carrossel', this)">Gestão de Carrosséis</li>
+            <li class="aba-btn" onclick="abrirAba('aba-vagas', this)">Ofertas de Vagas</li>
+        </ul>
+    </aside>
+
+    <main>
+        <!-- Aba: Depoimentos -->
+        <section id="aba-depoimentos" class="aba-conteudo ativo">
+            <h2>Gestão de Relatos</h2>
+            <div class="stats-cards">
+                <div class="card">Total Recebido<span>24</span></div>
+                <div class="card">Pendentes<span>5</span></div>
+                <div class="card">Postados<span>19</span></div>
+            </div>
+
+            <h3>Relatos Pendentes</h3>
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Relato</th>
+                    <th>Ações</th>
+                </tr>
+                <tr>
+                    <td>Carlos Souza</td>
+                    <td>"Excelente serviço na reforma do meu quarto."</td>
+                    <td>
+                        <button class="btn btn-verde">Validar</button>
+                        <button class="btn btn-vermelho">Excluir</button>
+                    </td>
+                </tr>
+            </table>
+
+            <h3 style="margin-top: 40px;">Relatos Postados</h3>
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Relato</th>
+                    <th>Ações</th>
+                </tr>
+                <tr>
+                    <td>João Silva</td>
+                    <td>"Trabalho rápido e muito limpo..."</td>
+                    <td>
+                        <button class="btn btn-azul">Editar</button>
+                        <button class="btn btn-vermelho">Excluir</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Aba: Carrossel -->
+        <section id="aba-carrossel" class="aba-conteudo">
+            <h2>Gerenciar Portfólio (Carrosséis)</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px dashed #ccc;">
+                <h3>Adicionar Imagens</h3>
+                <div class="form-group">
+                    <label>Selecione uma ou mais imagens:</label>
+                    <input type="file" multiple accept="image/*">
+                </div>
+                <button class="btn btn-laranja">Fazer Upload sem Limites</button>
+            </div>
+
+            <h3 style="margin-top: 30px;">Carrossel Principal Ativo</h3>
+            <div class="carrossel-grid">
+                <img src="https://via.placeholder.com/150" alt="Exemplo">
+                <img src="https://via.placeholder.com/150" alt="Exemplo">
+                <img src="https://via.placeholder.com/150" alt="Exemplo">
+            </div>
+
+            <button class="btn btn-azul" style="margin-top: 20px; width: 100%;">+ Criar novo carrossel abaixo</button>
+        </section>
+
+        <!-- Aba: Vagas -->
+        <section id="aba-vagas" class="aba-conteudo">
+            <h2>Gestão de Vagas</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3>Nova Oferta de Vaga</h3>
+                <div class="form-group">
+                    <label>Nome da Vaga:</label>
+                    <input type="text" placeholder="Ex: Montador de Drywall">
+                </div>
+                <div class="form-group">
+                    <label>Definições e Requisitos:</label>
+                    <textarea placeholder="Descreva o que é necessário para a vaga..."></textarea>
+                </div>
+                <button class="btn btn-verde">Publicar Vaga</button>
+            </div>
+
+            <h3>Vagas Ativas</h3>
+            <table>
+                <tr>
+                    <th>Vaga</th>
+                    <th>Definição</th>
+                    <th>Ações</th>
+                </tr>
+                <tr>
+                    <td>Montador de Drywall</td>
+                    <td>Necessário experiência comprovada...</td>
+                    <td>
+                        <button class="btn btn-azul">Editar</button>
+                        <button class="btn btn-vermelho">Encerrar</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // Função para alternar entre as abas do painel admin
+        function abrirAba(idAba, elementoBtn) {
+            document.querySelectorAll('.aba-conteudo').forEach(aba => aba.classList.remove('ativo'));
+            document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativo'));
+            
+            document.getElementById(idAba).classList.add('ativo');
+            elementoBtn.classList.add('ativo');
+        }
+    </script>
+</body>
+</html>
