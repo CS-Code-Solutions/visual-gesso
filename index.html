@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Gesso - Especialistas em Acabamentos</title>
     <style>
-        /* Paleta de Cores e Variáveis */
         :root {
             --primaria: #FF6600; 
             --secundaria: #FFCC00; 
@@ -16,11 +15,9 @@
             --sombra: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        /* Reset e Base */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--fundo-site); color: var(--texto-escuro); line-height: 1.6; }
         
-        /* Cabeçalho Fixo e Claro */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 5%; background-color: var(--fundo-secao); 
@@ -28,89 +25,88 @@
             position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; 
         }
         
-        /* Fundo "Cinza Calopsita" no Logótipo */
-        .logo {
-            background-color: #d4d4d4; 
-            padding: 5px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
+        .logo { background-color: #d4d4d4; padding: 5px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; }
         
         nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-        nav a { 
-            color: var(--texto-escuro); text-decoration: none; font-weight: 600; 
-            font-size: 1.05rem; transition: all 0.3s ease; padding: 5px 0;
-        }
+        nav a { color: var(--texto-escuro); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; padding: 5px 0; }
         nav a:hover { color: var(--primaria); }
 
-        /* Estrutura das Secções */
-        section { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
-        .secao-branca { background-color: var(--fundo-secao); border-radius: 12px; box-shadow: var(--sombra); margin-bottom: 40px; }
+        /* Espaçamentos e Secções */
+        section { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
+        .secao-branca { background-color: var(--fundo-secao); border-radius: 12px; box-shadow: var(--sombra); margin-bottom: 20px; }
         
-        h2 { text-align: center; color: var(--texto-escuro); margin-bottom: 40px; font-size: 2rem; position: relative; }
+        h2 { text-align: center; color: var(--texto-escuro); margin-bottom: 25px; font-size: 1.8rem; position: relative; }
         h2::after { content: ''; display: block; width: 60px; height: 4px; background-color: var(--primaria); margin: 10px auto 0; border-radius: 2px; }
 
-        /* Carrossel Moderno */
+        /* Introdução e Serviços (NOVO) */
+        .hero-section { text-align: center; padding-top: 40px; padding-bottom: 20px; }
+        .hero-section h1 { color: var(--texto-escuro); font-size: 2.2rem; margin-bottom: 10px; }
+        .hero-section h1 span { color: var(--primaria); }
+        .tags-servicos { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 25px 0; }
+        .tag-hero { background-color: rgba(255, 102, 0, 0.1); color: var(--primaria); font-weight: bold; padding: 8px 16px; border-radius: 30px; font-size: 0.95rem; border: 1px solid rgba(255, 102, 0, 0.2); }
+
+        /* Carrossel */
         .carrossel-container { position: relative; width: 100%; height: 500px; overflow: hidden; border-radius: 12px; box-shadow: var(--sombra); }
         .carrossel-slide { display: none; width: 100%; height: 100%; object-fit: cover; }
         .carrossel-slide.ativo { display: block; animation: fade 0.5s ease-in-out; }
         @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
         
-        .btn-carrossel { 
-            position: absolute; top: 50%; transform: translateY(-50%); 
-            background: rgba(255, 255, 255, 0.8); color: var(--primaria); border: none; 
-            font-size: 1.5rem; padding: 15px; cursor: pointer; border-radius: 50%; 
-            width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
-            transition: background 0.3s;
-        }
+        .btn-carrossel { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.8); color: var(--primaria); border: none; font-size: 1.5rem; padding: 15px; cursor: pointer; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
         .btn-carrossel:hover { background: var(--primaria); color: white; }
         .btn-voltar { left: 20px; }
         .btn-avancar { right: 20px; }
 
-        /* Grid de Cards (Vagas e Depoimentos) */
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: var(--fundo-site); border-radius: 10px; padding: 30px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+        /* Cards */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--fundo-site); border-radius: 10px; padding: 25px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05); transition: transform 0.3s, box-shadow 0.3s; }
         .card:hover { transform: translateY(-5px); box-shadow: var(--sombra); }
-        .card h3 { color: var(--primaria); margin-bottom: 15px; font-size: 1.3rem; }
-        .card p { color: var(--texto-cinza); margin-bottom: 20px; }
+        .card h3 { color: var(--primaria); margin-bottom: 10px; font-size: 1.2rem; }
+        .card p { color: var(--texto-cinza); margin-bottom: 15px; font-size: 0.95rem; }
         
         .tag-servico { background-color: rgba(255, 204, 0, 0.2); color: #B38F00; font-size: 0.8rem; padding: 5px 10px; border-radius: 20px; font-weight: bold; display: inline-block; margin-bottom: 15px; }
 
         /* Botões */
-        .btn-acao { background-color: var(--primaria); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 6px; font-weight: bold; font-size: 1rem; width: 100%; transition: background 0.3s; display: inline-block; text-align: center; }
+        .btn-acao { background-color: var(--primaria); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 6px; font-weight: bold; font-size: 1rem; width: 100%; transition: background 0.3s; display: inline-block; text-align: center; text-decoration: none; }
         .btn-acao:hover { background-color: #e65c00; }
-        .btn-centro { display: block; width: fit-content; margin: 30px auto 0; }
+        .btn-centro { display: block; width: fit-content; margin: 20px auto 0; }
+        
+        .btn-whatsapp { background-color: #25D366; }
+        .btn-whatsapp:hover { background-color: #128C7E; }
+        .btn-hero { width: auto; font-size: 1.1rem; padding: 15px 35px; border-radius: 30px; }
 
         /* Modais */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--fundo-secao); padding: 40px; border-radius: 12px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-content { background: var(--fundo-secao); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
         .fechar { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.8rem; color: #999; }
         .fechar:hover { color: var(--texto-escuro); }
         
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--texto-escuro); }
-        input, textarea, select { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd; background-color: #fcfcfc; font-family: inherit; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--texto-escuro); font-size: 0.9rem; }
+        input, textarea, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; background-color: #fcfcfc; font-family: inherit; font-size: 1rem; transition: border-color 0.3s; }
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primaria); }
-        textarea { height: 120px; resize: vertical; }
+        textarea { height: 100px; resize: vertical; }
+
+        /* Rodapé Atualizado */
+        footer { background-color: #111; color: #fff; text-align: center; padding: 40px 20px; margin-top: 40px; }
+        .btn-instagram { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; margin-bottom: 20px; transition: transform 0.2s; font-size: 1.1rem; }
+        .btn-instagram:hover { transform: scale(1.05); }
+        .powered-by { font-size: 0.9rem; color: #aaa; margin-top: 25px; border-top: 1px solid #333; padding-top: 20px; }
+        .powered-by a { color: var(--primaria); font-weight: bold; text-decoration: none; transition: color 0.3s; }
+        .powered-by a:hover { color: var(--secundaria); }
 
         /* Responsividade */
         @media (max-width: 768px) {
             header { flex-direction: column; justify-content: center; padding: 15px 10px; gap: 15px; }
             .logo img { height: 95px; } 
-            
-            nav ul { width: 100%; justify-content: center; gap: 10px; }
-            nav a { 
-                font-size: 0.9rem; background-color: #f4f4f4; padding: 8px 14px; 
-                border-radius: 20px; border: 1px solid #eaeaea; display: inline-block;
-            }
+            nav ul { width: 100%; justify-content: center; gap: 8px; }
+            nav a { font-size: 0.85rem; background-color: #f4f4f4; padding: 6px 12px; border-radius: 20px; border: 1px solid #eaeaea; display: inline-block; }
             nav a:hover { background-color: rgba(255, 102, 0, 0.1); border-color: var(--primaria); }
             
-            .carrossel-container { height: 300px; }
-            section { padding: 50px 5%; }
+            section { padding: 30px 5%; }
+            .hero-section h1 { font-size: 1.8rem; }
+            .carrossel-container { height: 250px; }
+            .secao-branca { padding: 20px !important; }
         }
     </style>
 </head>
@@ -129,24 +125,42 @@
         </nav>
     </header>
 
+    <!-- Secção Inicial com Serviços da Bio do Instagram -->
+    <section class="hero-section">
+        <h1>Especialistas em <span>Drywall e Acabamentos</span></h1>
+        
+        <div class="tags-servicos">
+            <span class="tag-hero">🏠 Especialistas em Drywall</span>
+            <span class="tag-hero">💡 Entrega com pintura e elétrica</span>
+            <span class="tag-hero">🎨 Pinturas predial e residencial</span>
+            <span class="tag-hero">🛠️ Reparos e manutenção</span>
+        </div>
+
+        <a href="https://wa.me/5551982005698" target="_blank" class="btn-acao btn-whatsapp btn-hero btn-centro">
+            📞 (51) 98200-5698 - Faça o seu Orçamento
+        </a>
+    </section>
+
     <section id="portfolio">
         <h2>Serviços Realizados</h2>
         <div class="secao-branca" style="padding: 20px;">
             <div class="carrossel-container">
                 <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Projeto Sanca Fechada">
                 <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Parede 3D">
                 <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Iluminação">
-                
                 <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
             </div>
+            
+            <a href="https://wa.me/5551982005698" target="_blank" class="btn-acao btn-whatsapp btn-centro">
+                Faça um Orçamento pelo WhatsApp
+            </a>
         </div>
     </section>
 
     <section id="vagas">
         <h2>Trabalhe Connosco</h2>
-        <div class="secao-branca" style="padding: 40px;">
+        <div class="secao-branca" style="padding: 30px;">
             <div class="grid-cards">
                 <div class="card">
                     <h3>Montador de Drywall</h3>
@@ -164,7 +178,7 @@
 
     <section id="depoimentos">
         <h2>O que os nossos clientes dizem</h2>
-        <div class="secao-branca" style="padding: 40px;">
+        <div class="secao-branca" style="padding: 30px;">
             <div class="grid-cards">
                 <div class="card">
                     <span class="tag-servico">Sanca e Iluminação</span>
@@ -181,10 +195,25 @@
         </div>
     </section>
 
+    <!-- Rodapé com Links Oficiais Adicionados -->
+    <footer>
+        <a href="https://instagram.com/visual_gessos?vrfl=MWNwenJ4MGVpdjQwZw%3D%3D" target="_blank" class="btn-instagram">
+            Siga a Visual Gesso no Instagram
+        </a>
+        <p>Visual Gesso © 2026. Todos os direitos reservados.</p>
+        <div class="powered-by">
+            Desenvolvido por 
+            <a href="https://www.instagram.com/cs_code_solutions?psln=Ym1mNDMzYTYxa3d6" target="_blank">
+                CS Code Solutions
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modais (Inalterados) -->
     <div id="modal-candidatura" class="modal">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModal('modal-candidatura')">&times;</span>
-            <h2 style="margin-bottom: 20px; font-size: 1.5rem; text-align: left;">Envie o seu Currículo</h2>
+            <h2 style="margin-bottom: 20px; font-size: 1.3rem; text-align: left;">Envie o seu Currículo</h2>
             <form id="formCandidatura">
                 <input type="hidden" id="vagaAlvo">
                 <div class="form-group">
@@ -196,8 +225,8 @@
                     <input type="text" required placeholder="A sua localidade">
                 </div>
                 <div class="form-group">
-                    <label>As suas qualificações e experiências</label>
-                    <textarea required placeholder="Fale um pouco sobre a sua experiência na área..."></textarea>
+                    <label>As suas qualificações</label>
+                    <textarea required placeholder="Fale sobre a sua experiência..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Anexar Currículo (Opcional)</label>
@@ -211,14 +240,14 @@
     <div id="modal-relato" class="modal">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModal('modal-relato')">&times;</span>
-            <h2 style="margin-bottom: 20px; font-size: 1.5rem; text-align: left;">Deixe o seu Relato</h2>
+            <h2 style="margin-bottom: 20px; font-size: 1.3rem; text-align: left;">Deixe o seu Relato</h2>
             <form id="formRelato">
                 <div class="form-group">
                     <label>O seu Nome</label>
                     <input type="text" required placeholder="Como prefere ser chamado?">
                 </div>
                 <div class="form-group">
-                    <label>Qual foi o serviço contratado?</label>
+                    <label>Serviço contratado?</label>
                     <select required>
                         <option value="" disabled selected>Selecione uma opção...</option>
                         <option value="Gesso Convencional">Gesso Convencional</option>
@@ -238,56 +267,31 @@
     </div>
 
     <script>
-        // Lógica de Modais
         function abrirModal(id, vagaNome = '') { 
             const modal = document.getElementById(id);
             modal.style.display = 'flex'; 
-            if(id === 'modal-candidatura') {
-                document.getElementById('vagaAlvo').value = vagaNome;
-            }
+            if(id === 'modal-candidatura') { document.getElementById('vagaAlvo').value = vagaNome; }
         }
+        function fecharModal(id) { document.getElementById(id).style.display = 'none'; }
+        window.onclick = function(event) { if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } }
 
-        function fecharModal(id) { 
-            document.getElementById(id).style.display = 'none'; 
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
-
-        // Lógica do Carrossel Automático e Manual
         let slideIndex = 0;
         let temporizadorCarrossel;
 
-        function iniciarCarrossel() {
-            // Define a troca de fotos a cada 4000 milissegundos (4 segundos)
-            temporizadorCarrossel = setInterval(() => {
-                mudarSlide(1, false); // false = avanço automático
-            }, 4000);
-        }
+        function iniciarCarrossel() { temporizadorCarrossel = setInterval(() => { mudarSlide(1, false); }, 4000); }
 
         function mudarSlide(n, cliqueManual = false) {
             const slides = document.querySelectorAll('.carrossel-slide');
             if(slides.length === 0) return;
-            
             slides[slideIndex].classList.remove('ativo');
             slideIndex += n;
-            
             if(slideIndex >= slides.length) slideIndex = 0;
             if(slideIndex < 0) slideIndex = slides.length - 1;
-            
             slides[slideIndex].classList.add('ativo');
 
-            // Se o utilizador clicou na seta, reiniciamos o tempo para a foto não fugir
-            if(cliqueManual) {
-                clearInterval(temporizadorCarrossel);
-                iniciarCarrossel();
-            }
+            if(cliqueManual) { clearInterval(temporizadorCarrossel); iniciarCarrossel(); }
         }
 
-        // Inicia o carrossel automático assim que o código carrega
         iniciarCarrossel();
     </script>
 </body>
