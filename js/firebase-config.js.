@@ -1,0 +1,19 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD4DTpcW3eTUM0G5fCm1jiODa3ntyU2REw", // Chave visível no seu print
+  authDomain: "visualgesso-8536a.firebaseapp.com",
+  projectId: "visualgesso-8536a",
+  storageBucket: "visualgesso-8536a.firebasestorage.app",
+  messagingSenderId: "553107041656",
+  appId: "1:553107041656:web:b4c5879c5e1469cba3ec8d"
+};
+
+// Inicializando o Firebase e exportando os serviços
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+export const auth = getAuth(app);
