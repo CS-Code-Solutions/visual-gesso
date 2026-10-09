@@ -23,9 +23,17 @@
         .logo { background-color: #d4d4d4; padding: 5px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; }
         
-        nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-        nav a { color: var(--texto-escuro); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; padding: 5px 0; }
-        nav a:hover { color: var(--primaria); }
+        /* Navegação e Dropdown (Cascata) */
+        nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; }
+        nav a, .dropbtn { color: var(--texto-escuro); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; padding: 5px 0; cursor: pointer; border: none; background: none; font-family: inherit; }
+        nav a:hover, .dropbtn:hover { color: var(--primaria); }
+
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content { display: none; position: absolute; background-color: var(--fundo-secao); min-width: 240px; box-shadow: 0px 8px 20px rgba(0,0,0,0.15); z-index: 1001; border-radius: 8px; overflow: hidden; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 10px; border: 1px solid #eee; }
+        .dropdown-content a { color: var(--texto-escuro); padding: 12px 20px; text-decoration: none; display: block; text-align: left; font-size: 0.95rem; border-bottom: 1px solid #f0f0f0; }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover { background-color: rgba(255, 102, 0, 0.05); color: var(--primaria); padding-left: 25px; }
+        .dropdown:hover .dropdown-content { display: block; }
 
         section { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
         .secao-branca { background-color: var(--fundo-secao); border-radius: 12px; box-shadow: var(--sombra); margin-bottom: 20px; }
@@ -33,33 +41,16 @@
         h2 { text-align: center; color: var(--texto-escuro); margin-bottom: 25px; font-size: 1.8rem; position: relative; }
         h2::after { content: ''; display: block; width: 60px; height: 4px; background-color: var(--primaria); margin: 10px auto 0; border-radius: 2px; }
 
-        /* Introdução e Serviços */
-        .hero-section { text-align: center; padding-top: 40px; padding-bottom: 20px; }
-        .hero-section h1 { color: var(--texto-escuro); font-size: 2.2rem; margin-bottom: 10px; }
-        .hero-section h1 span { color: var(--primaria); }
-        .tags-servicos { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 25px 0; }
+        /* Nova Secção Quem Somos */
+        #quem-somos { padding-top: 60px; }
+        .quem-somos-content { padding: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .quem-somos-content h1 { font-size: 2.4rem; color: var(--texto-escuro); margin-bottom: 15px; }
+        .quem-somos-content h1 span { color: var(--primaria); }
+        .quem-somos-content p { color: var(--texto-cinza); font-size: 1.1rem; max-width: 800px; margin-bottom: 20px; }
         
-        /* Botões das Tags (Agora Cinzinhos por defeito) */
-        .tag-hero { 
-            background-color: #f0f2f5; /* Cinza claro elegante */
-            color: var(--texto-escuro); 
-            font-weight: 600; 
-            padding: 10px 20px; 
-            border-radius: 30px; 
-            font-size: 1rem; 
-            border: 1px solid #d1d5db; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-        }
-        
-        /* Estado Hover e Ativo (Laranja) */
-        .tag-hero:hover, .tag-hero.ativa { 
-            background-color: var(--primaria); 
-            color: white; 
-            border-color: var(--primaria); 
-            transform: translateY(-3px); 
-            box-shadow: 0 4px 10px rgba(255,102,0,0.3); 
-        }
+        .lista-quem-somos { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
+        .lista-quem-somos li { background: #f0f2f5; padding: 10px 20px; border-radius: 30px; font-weight: bold; color: var(--texto-escuro); font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .lista-quem-somos li i { color: var(--primaria); font-style: normal; }
 
         /* Controlo de Secções de Serviço */
         .servico-container { display: none; animation: fadeIn 0.5s; }
@@ -117,11 +108,15 @@
         @media (max-width: 768px) {
             header { flex-direction: column; justify-content: center; padding: 15px 10px; gap: 15px; }
             .logo img { height: 95px; } 
-            nav ul { width: 100%; justify-content: center; gap: 8px; }
-            nav a { font-size: 0.85rem; background-color: #f4f4f4; padding: 6px 12px; border-radius: 20px; border: 1px solid #eaeaea; display: inline-block; }
+            
+            nav ul { width: 100%; justify-content: center; gap: 10px; flex-direction: row; }
+            nav a, .dropbtn { font-size: 0.9rem; background-color: #f4f4f4; padding: 8px 14px; border-radius: 20px; border: 1px solid #eaeaea; display: inline-block; }
+            
+            /* Ajuste do dropdown no telemóvel */
+            .dropdown-content { min-width: 200px; top: calc(100% + 5px); }
             
             section { padding: 30px 5%; }
-            .hero-section h1 { font-size: 1.8rem; }
+            .quem-somos-content h1 { font-size: 1.8rem; }
             .carrossel-container { height: 250px; }
             .secao-branca { padding: 20px !important; }
         }
@@ -135,26 +130,40 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#portfolio">Serviços Realizados</a></li>
+                <li><a href="#quem-somos">Quem Somos</a></li>
+                <!-- Dropdown de Especialidades -->
+                <li class="dropdown">
+                    <button class="dropbtn">Especialidades &#9662;</button>
+                    <div class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="verEspecialidade('drywall', 'Especialistas em Drywall')">🏠 Drywall</a>
+                        <a href="javascript:void(0)" onclick="verEspecialidade('pintura-eletrica', 'Pintura e Elétrica')">💡 Pintura e Elétrica</a>
+                        <a href="javascript:void(0)" onclick="verEspecialidade('pintura-predial', 'Pintura Predial e Residencial')">🎨 Pintura Predial</a>
+                        <a href="javascript:void(0)" onclick="verEspecialidade('reparos', 'Reparos e Manutenção')">🛠️ Reparos e Manutenção</a>
+                    </div>
+                </li>
                 <li><a href="#vagas">Trabalhe Connosco</a></li>
                 <li><a href="#depoimentos">Depoimentos</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="hero-section">
-        <h1>Especialistas em <span>Drywall e Acabamentos</span></h1>
-        <p style="color: var(--texto-cinza); margin-top: 10px;">Clique numa das nossas especialidades para ver os nossos trabalhos:</p>
-        
-        <div class="tags-servicos">
-            <!-- A classe "ativa" no primeiro botão define que ele está selecionado ao carregar a página -->
-            <button class="tag-hero ativa" onclick="verEspecialidade('drywall', 'Especialistas em Drywall', this)">🏠 Especialistas em Drywall</button>
-            <button class="tag-hero" onclick="verEspecialidade('pintura-eletrica', 'Pintura e Elétrica', this)">💡 Entrega com pintura e elétrica</button>
-            <button class="tag-hero" onclick="verEspecialidade('pintura-predial', 'Pintura Predial e Residencial', this)">🎨 Pinturas predial e residencial</button>
-            <button class="tag-hero" onclick="verEspecialidade('reparos', 'Reparos e Manutenção', this)">🛠️ Reparos e manutenção</button>
+    <!-- Nova Secção: Quem Somos -->
+    <section id="quem-somos">
+        <div class="secao-branca quem-somos-content">
+            <h1>Especialistas em <span>Drywall e Acabamentos</span></h1>
+            <p>A <strong>Visual Gesso</strong> é a sua parceira ideal para transformar ambientes com qualidade e sofisticação. Atuamos entregando projetos com alto padrão de excelência, desde a estrutura até ao último detalhe do acabamento.</p>
+            <p>Mais do que simples paredes e tetos, criamos espaços com isolamento acústico, sancas iluminadas e acabamentos perfeitos. Valorizamos cada obra com dedicação e profissionalismo.</p>
+            
+            <ul class="lista-quem-somos">
+                <li><i>✔️</i> Mão de obra qualificada</li>
+                <li><i>✔️</i> Entrega no prazo</li>
+                <li><i>✔️</i> Acabamento impecável</li>
+                <li><i>✔️</i> Materiais de alta qualidade</li>
+            </ul>
         </div>
     </section>
 
+    <!-- Secção de Portfólio Controlada pelo Menu -->
     <section id="portfolio">
         <h2>Serviços Realizados</h2>
         <div class="secao-branca" style="padding: 20px;">
@@ -187,13 +196,11 @@
                 </button>
             </div>
 
-            <!-- CARROSSEL 3: PINTURA PREDIAL E RESIDENCIAL (FOTOS ATUALIZADAS) -->
+            <!-- CARROSSEL 3: PINTURA PREDIAL E RESIDENCIAL -->
             <div id="cat-pintura-predial" class="servico-container">
                 <div class="carrossel-container">
                     <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <!-- Pintor a trabalhar -->
                     <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintor em Ação">
-                    <!-- Fachada de Edifício Moderno Recém Pintado -->
                     <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Pintura Predial Externa">
                     <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
                 </div>
@@ -218,7 +225,7 @@
         </div>
     </section>
 
-    <!-- Restante das Secções (Vagas, Depoimentos e Rodapé) -->
+    <!-- Secções de Vagas e Depoimentos -->
     <section id="vagas">
         <h2>Trabalhe Connosco</h2>
         <div class="secao-branca" style="padding: 30px;">
@@ -363,25 +370,23 @@
             fecharModal('modal-orcamento');
         }
 
-        // Lógica de Trocar as Especialidades e Pintar Botão Ativo
-        function verEspecialidade(idCategoria, titulo, elementoClicado) {
+        // Função chamada pelo menu Dropdown
+        function verEspecialidade(idCategoria, titulo) {
             // Remover 'ativo' de todos os containers de serviço
             const containers = document.querySelectorAll('.servico-container');
             containers.forEach(container => container.classList.remove('ativo'));
 
-            // Remover 'ativa' de todos os botões
-            const botoes = document.querySelectorAll('.tag-hero');
-            botoes.forEach(btn => btn.classList.remove('ativa'));
-
-            // Adicionar 'ativo' apenas ao container e botão selecionados
+            // Adicionar 'ativo' apenas ao container selecionado
             document.getElementById('cat-' + idCategoria).classList.add('ativo');
-            elementoClicado.classList.add('ativa');
             
-            // Alterar o Título
+            // Alterar o Título da secção
             document.getElementById('titulo-categoria-ativa').innerText = titulo;
 
-            // Fazer scroll até ao carrossel
-            document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
+            // Fazer scroll suave até ao carrossel
+            // (Com um pequeno delay para garantir que o display:block carregou a altura correta)
+            setTimeout(() => {
+                document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 50);
 
             // Resetar o Carrossel da nova secção
             slideIndex = 0;
