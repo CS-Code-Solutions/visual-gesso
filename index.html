@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Gesso - Especialistas em Acabamentos</title>
+    
+    <!-- Ícone da página -->
+    <link rel="icon" href="ico.png" type="image/png">
+
     <style>
         :root {
             --primaria: #FF6600; 
@@ -20,8 +24,8 @@
         
         header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5%; background-color: var(--fundo-secao); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; }
         
-        .logo { background-color: #d4d4d4; padding: 5px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; }
+        .logo { background-color: #d4d4d4; padding: 5px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: auto; }
+        .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; display: block; }
         
         /* Navegação e Dropdown (Cascata) */
         nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; }
@@ -105,20 +109,24 @@
         .powered-by a { color: var(--primaria); font-weight: bold; text-decoration: none; transition: color 0.3s; }
         .powered-by a:hover { color: var(--secundaria); }
 
+        /* Ajustes específicos para Telemóvel (Mobile) */
         @media (max-width: 768px) {
-            header { flex-direction: column; justify-content: center; padding: 15px 10px; gap: 15px; }
-            .logo img { height: 95px; } 
+            header { flex-direction: column; justify-content: center; padding: 10px 0; gap: 15px; }
             
-            nav ul { width: 100%; justify-content: center; gap: 10px; flex-direction: row; }
-            nav a, .dropbtn { font-size: 0.9rem; background-color: #f4f4f4; padding: 8px 14px; border-radius: 20px; border: 1px solid #eaeaea; display: inline-block; }
+            /* Logo ocupando 100% da largura sem margens brancas laterais */
+            .logo { width: 100%; padding: 0; background-color: transparent; border-radius: 0; }
+            .logo img { width: 100%; height: auto; max-height: 120px; object-fit: cover; border-radius: 0; } 
+            
+            nav ul { width: 100%; justify-content: center; gap: 8px; flex-direction: row; padding: 0 10px; }
+            nav a, .dropbtn { font-size: 0.85rem; background-color: #f4f4f4; padding: 8px 12px; border-radius: 20px; border: 1px solid #eaeaea; display: inline-block; }
             
             /* Ajuste do dropdown no telemóvel */
             .dropdown-content { min-width: 200px; top: calc(100% + 5px); }
             
-            section { padding: 30px 5%; }
+            section { padding: 25px 4%; }
             .quem-somos-content h1 { font-size: 1.8rem; }
             .carrossel-container { height: 250px; }
-            .secao-branca { padding: 20px !important; }
+            .secao-branca { padding: 15px !important; }
         }
     </style>
 </head>
@@ -147,7 +155,7 @@
         </nav>
     </header>
 
-    <!-- Nova Secção: Quem Somos -->
+    <!-- Secção: Quem Somos -->
     <section id="quem-somos">
         <div class="secao-branca quem-somos-content">
             <h1>Especialistas em <span>Drywall e Acabamentos</span></h1>
@@ -310,10 +318,10 @@
             <h2 style="margin-bottom: 20px; font-size: 1.3rem; text-align: left;">Envie o seu Currículo</h2>
             <form id="formCandidatura">
                 <input type="hidden" id="vagaAlvo">
-                <div class="form-group"><label>Nome Completo</label><input type="text" required></div>
-                <div class="form-group"><label>Morada / Endereço</label><input type="text" required></div>
-                <div class="form-group"><label>As suas qualificações</label><textarea required></textarea></div>
-                <button type="button" class="btn-acao" onclick="fecharModal('modal-candidatura')">Enviar Candidatura</button>
+                <div class="form-group"><label>Nome Completo</label><input type="text" required placeholder="Ex: João Silva"></div>
+                <div class="form-group"><label>Morada / Endereço</label><input type="text" required placeholder="A sua localidade"></div>
+                <div class="form-group"><label>As suas qualificações</label><textarea required placeholder="Fale sobre a sua experiência..."></textarea></div>
+                <button type="button" class="btn-acao" onclick="fecharModal('modal-candidatura'); alert('Candidatura registada com sucesso!')">Enviar Candidatura</button>
             </form>
         </div>
     </div>
@@ -323,9 +331,9 @@
             <span class="fechar" onclick="fecharModal('modal-relato')">&times;</span>
             <h2 style="margin-bottom: 20px; font-size: 1.3rem; text-align: left;">Deixe o seu Relato</h2>
             <form id="formRelato">
-                <div class="form-group"><label>Nome</label><input type="text" required></div>
-                <div class="form-group"><label>Depoimento</label><textarea required></textarea></div>
-                <button type="button" class="btn-acao" onclick="fecharModal('modal-relato')">Enviar para Análise</button>
+                <div class="form-group"><label>Nome</label><input type="text" required placeholder="O seu nome"></div>
+                <div class="form-group"><label>Depoimento</label><textarea required placeholder="Escreva a sua avaliação..."></textarea></div>
+                <button type="button" class="btn-acao" onclick="fecharModal('modal-relato'); alert('Depoimento enviado para análise!')">Enviar para Análise</button>
             </form>
         </div>
     </div>
@@ -372,23 +380,16 @@
 
         // Função chamada pelo menu Dropdown
         function verEspecialidade(idCategoria, titulo) {
-            // Remover 'ativo' de todos os containers de serviço
             const containers = document.querySelectorAll('.servico-container');
             containers.forEach(container => container.classList.remove('ativo'));
 
-            // Adicionar 'ativo' apenas ao container selecionado
             document.getElementById('cat-' + idCategoria).classList.add('ativo');
-            
-            // Alterar o Título da secção
             document.getElementById('titulo-categoria-ativa').innerText = titulo;
 
-            // Fazer scroll suave até ao carrossel
-            // (Com um pequeno delay para garantir que o display:block carregou a altura correta)
             setTimeout(() => {
                 document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 50);
 
-            // Resetar o Carrossel da nova secção
             slideIndex = 0;
             atualizarSlideVisivel();
             clearInterval(temporizadorCarrossel);
