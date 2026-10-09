@@ -8,7 +8,6 @@
         :root { --primaria: #FF6600; --fundo: #f4f4f9; --texto: #333; --painel: #ffffff; }
         body { font-family: Arial, sans-serif; margin: 0; background: var(--fundo); color: var(--texto); display: flex; flex-wrap: wrap; }
         
-        /* Menu e Responsividade Admin */
         aside { width: 250px; background: #111; color: white; min-height: 100vh; padding: 20px 0; }
         aside img { width: 80%; margin: 0 auto 20px; display: block; }
         aside ul { list-style: none; padding: 0; }
@@ -54,15 +53,17 @@
             <h2>Gestão de Relatos</h2>
             <h3>Pendentes</h3>
             <table id="tabela-pendentes">
-                <tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>
+                <!-- Coluna Serviço adicionada -->
+                <tr><th>Nome</th><th>Serviço</th><th>Relato</th><th>Ações</th></tr>
             </table>
             <h3 style="margin-top: 40px;">Postados (Aprovados)</h3>
             <table id="tabela-aprovados">
-                <tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>
+                <!-- Coluna Serviço adicionada -->
+                <tr><th>Nome</th><th>Serviço</th><th>Relato</th><th>Ações</th></tr>
             </table>
         </section>
 
-        <!-- Aba: Carrossel -->
+        <!-- Restante do HTML inalterado... -->
         <section id="aba-carrossel" class="aba-conteudo">
             <h2>Gerir Portfólio</h2>
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
@@ -79,7 +80,6 @@
             <div class="carrossel-grid" id="grid-imagens-admin"></div>
         </section>
 
-        <!-- Aba: Vagas -->
         <section id="aba-vagas" class="aba-conteudo">
             <h2>Gestão de Vagas</h2>
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -100,7 +100,6 @@
             </table>
         </section>
 
-        <!-- Aba: Candidaturas -->
         <section id="aba-candidaturas" class="aba-conteudo">
             <h2>Candidaturas Recebidas</h2>
             <table id="tabela-cand">
@@ -110,7 +109,6 @@
     </main>
 
     <script>
-        // Navegação Visual do Admin
         function abrirAba(idAba, elementoBtn) {
             document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativo'));
             document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));
@@ -119,29 +117,34 @@
         }
     </script>
 
-    <!-- Integração Firebase Admin -->
     <script type="module">
         import { db, storage } from './js/firebase-config.js';
         import { compressImage } from './js/compressor.js';
-        import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
         import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
-        // --- GESTÃO DE DEPOIMENTOS ---
+        // --- GESTÃO DE DEPOIMENTOS ATUALIZADA ---
         async function carregarDepoimentosAdmin() {
             const pendentes = document.getElementById('tabela-pendentes');
             const aprovados = document.getElementById('tabela-aprovados');
-            pendentes.innerHTML = '<tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>';
-            aprovados.innerHTML = '<tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>';
+            // Cabeçalhos atualizados
+            pendentes.innerHTML = '<tr><th>Nome</th><th>Serviço</th><th>Relato</th><th>Ações</th></tr>';
+            aprovados.innerHTML = '<tr><th>Nome</th><th>Serviço</th><th>Relato</th><th>Ações</th></tr>';
 
             const querySnapshot = await getDocs(collection(db, "depoimentos"));
             querySnapshot.forEach((d) => {
                 const data = d.data();
                 const id = d.id;
-                const linha = `<tr><td>${data.nome}</td><td>${data.texto}</td>
+                // Renderização da linha com o campo Serviço
+                const linha = `<tr>
+                    <td>${data.nome}</td>
+                    <td><b>${data.servico || 'Não informado'}</b></td>
+                    <td>${data.texto}</td>
                     <td>
                         ${data.status === 'pendente' ? `<button class="btn btn-verde" onclick="aprovarRelato('${id}')">Aprovar</button>` : ''}
                         <button class="btn btn-vermelho" onclick="excluirDoc('depoimentos', '${id}')">Excluir</button>
-                    </td></tr>`;
+                    </td>
+                </tr>`;
                 if(data.status === 'pendente') pendentes.innerHTML += linha;
                 else aprovados.innerHTML += linha;
             });
@@ -152,7 +155,7 @@
             carregarDepoimentosAdmin();
         }
 
-        // --- GESTÃO DE VAGAS ---
+        // Restante dos scripts de Vagas e Carrossel inalterados
         document.getElementById('formNovaVaga').addEventListener('submit', async (e) => {
             e.preventDefault();
             await addDoc(collection(db, "vagas"), {
@@ -173,7 +176,6 @@
             });
         }
 
-        // --- GESTÃO DO CARROSSEL (Upload com Compressão) ---
         document.getElementById('formUploadImg').addEventListener('submit', async (e) => {
             e.preventDefault();
             const file = document.getElementById('arquivoImg').files[0];
@@ -184,9 +186,7 @@
             status.style.color = "blue";
             
             try {
-                // Utiliza a sua função client-side
                 const compressedBlob = await compressImage(file, 1024, 0.75); 
-                
                 status.innerText = "A enviar para o servidor...";
                 const fileName = `img_${Date.now()}.jpg`;
                 const storageRef = ref(storage, `carrossel/${fileName}`);
@@ -224,12 +224,11 @@
         window.excluirImagem = async (idDoc, pathStorage) => {
             if(!confirm("Excluir imagem do portfólio?")) return;
             try {
-                await deleteObject(ref(storage, pathStorage)); // Apaga o ficheiro
-                await excluirDoc('carrossel', idDoc); // Apaga a referência
+                await deleteObject(ref(storage, pathStorage));
+                await excluirDoc('carrossel', idDoc);
             } catch(e) { alert("Erro ao excluir ficheiro: " + e.message); }
         }
 
-        // --- LEITURA DE CANDIDATURAS ---
         async function carregarCandidaturas() {
             const tabela = document.getElementById('tabela-cand');
             tabela.innerHTML = '<tr><th>Vaga</th><th>Candidato</th><th>Endereço</th><th>Qualificações</th></tr>';
@@ -240,7 +239,6 @@
             });
         }
 
-        // Função Global de Exclusão
         window.excluirDoc = async (colecao, id) => {
             if(confirm("Tem a certeza que deseja excluir?")) {
                 await deleteDoc(doc(db, colecao, id));
@@ -250,7 +248,6 @@
             }
         }
 
-        // Inicializar
         carregarDepoimentosAdmin();
         carregarVagasAdmin();
         carregarImagensAdmin();
