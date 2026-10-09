@@ -30,7 +30,7 @@
         
         /* Fundo "Cinza Calopsita" no Logótipo */
         .logo {
-            background-color: #d4d4d4; /* Tom cinza suave */
+            background-color: #d4d4d4; 
             padding: 5px 15px;
             border-radius: 8px;
             display: flex;
@@ -133,13 +133,13 @@
         <h2>Serviços Realizados</h2>
         <div class="secao-branca" style="padding: 20px;">
             <div class="carrossel-container">
-                <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1)">&#10094;</button>
+                <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
                 
                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Projeto Sanca Fechada">
                 <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Parede 3D">
                 <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Iluminação">
                 
-                <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1)">&#10095;</button>
+                <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
             </div>
         </div>
     </section>
@@ -238,6 +238,7 @@
     </div>
 
     <script>
+        // Lógica de Modais
         function abrirModal(id, vagaNome = '') { 
             const modal = document.getElementById(id);
             modal.style.display = 'flex'; 
@@ -256,8 +257,18 @@
             }
         }
 
+        // Lógica do Carrossel Automático e Manual
         let slideIndex = 0;
-        function mudarSlide(n) {
+        let temporizadorCarrossel;
+
+        function iniciarCarrossel() {
+            // Define a troca de fotos a cada 4000 milissegundos (4 segundos)
+            temporizadorCarrossel = setInterval(() => {
+                mudarSlide(1, false); // false = avanço automático
+            }, 4000);
+        }
+
+        function mudarSlide(n, cliqueManual = false) {
             const slides = document.querySelectorAll('.carrossel-slide');
             if(slides.length === 0) return;
             
@@ -268,7 +279,16 @@
             if(slideIndex < 0) slideIndex = slides.length - 1;
             
             slides[slideIndex].classList.add('ativo');
+
+            // Se o utilizador clicou na seta, reiniciamos o tempo para a foto não fugir
+            if(cliqueManual) {
+                clearInterval(temporizadorCarrossel);
+                iniciarCarrossel();
+            }
         }
+
+        // Inicia o carrossel automático assim que o código carrega
+        iniciarCarrossel();
     </script>
 </body>
 </html>
