@@ -39,9 +39,27 @@
         .hero-section h1 span { color: var(--primaria); }
         .tags-servicos { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 25px 0; }
         
-        /* Tags transformadas em Botões Clicáveis */
-        .tag-hero { background-color: rgba(255, 102, 0, 0.1); color: var(--primaria); font-weight: bold; padding: 10px 20px; border-radius: 30px; font-size: 1rem; border: 2px solid rgba(255, 102, 0, 0.2); cursor: pointer; transition: all 0.3s; }
-        .tag-hero:hover { background-color: var(--primaria); color: white; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(255,102,0,0.3); }
+        /* Botões das Tags (Agora Cinzinhos por defeito) */
+        .tag-hero { 
+            background-color: #f0f2f5; /* Cinza claro elegante */
+            color: var(--texto-escuro); 
+            font-weight: 600; 
+            padding: 10px 20px; 
+            border-radius: 30px; 
+            font-size: 1rem; 
+            border: 1px solid #d1d5db; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+        }
+        
+        /* Estado Hover e Ativo (Laranja) */
+        .tag-hero:hover, .tag-hero.ativa { 
+            background-color: var(--primaria); 
+            color: white; 
+            border-color: var(--primaria); 
+            transform: translateY(-3px); 
+            box-shadow: 0 4px 10px rgba(255,102,0,0.3); 
+        }
 
         /* Controlo de Secções de Serviço */
         .servico-container { display: none; animation: fadeIn 0.5s; }
@@ -124,16 +142,16 @@
         </nav>
     </header>
 
-    <!-- Secção Inicial: Tags agora são botões clicáveis -->
     <section class="hero-section">
         <h1>Especialistas em <span>Drywall e Acabamentos</span></h1>
         <p style="color: var(--texto-cinza); margin-top: 10px;">Clique numa das nossas especialidades para ver os nossos trabalhos:</p>
         
         <div class="tags-servicos">
-            <button class="tag-hero" onclick="verEspecialidade('drywall', 'Especialistas em Drywall')">🏠 Especialistas em Drywall</button>
-            <button class="tag-hero" onclick="verEspecialidade('pintura-eletrica', 'Pintura e Elétrica')">💡 Entrega com pintura e elétrica</button>
-            <button class="tag-hero" onclick="verEspecialidade('pintura-predial', 'Pintura Predial e Residencial')">🎨 Pinturas predial e residencial</button>
-            <button class="tag-hero" onclick="verEspecialidade('reparos', 'Reparos e Manutenção')">🛠️ Reparos e manutenção</button>
+            <!-- A classe "ativa" no primeiro botão define que ele está selecionado ao carregar a página -->
+            <button class="tag-hero ativa" onclick="verEspecialidade('drywall', 'Especialistas em Drywall', this)">🏠 Especialistas em Drywall</button>
+            <button class="tag-hero" onclick="verEspecialidade('pintura-eletrica', 'Pintura e Elétrica', this)">💡 Entrega com pintura e elétrica</button>
+            <button class="tag-hero" onclick="verEspecialidade('pintura-predial', 'Pintura Predial e Residencial', this)">🎨 Pinturas predial e residencial</button>
+            <button class="tag-hero" onclick="verEspecialidade('reparos', 'Reparos e Manutenção', this)">🛠️ Reparos e manutenção</button>
         </div>
     </section>
 
@@ -141,14 +159,12 @@
         <h2>Serviços Realizados</h2>
         <div class="secao-branca" style="padding: 20px;">
             
-            <!-- Título dinâmico que muda ao clicar nas tags -->
             <h3 id="titulo-categoria-ativa" class="titulo-servico-ativo">Especialistas em Drywall</h3>
 
-            <!-- CARROSSEL 1: DRYWALL (Ativo por defeito) -->
+            <!-- CARROSSEL 1: DRYWALL -->
             <div id="cat-drywall" class="servico-container ativo">
                 <div class="carrossel-container">
                     <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <!-- Imagens ilustrativas de Drywall / Gesso -->
                     <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Sanca Fechada">
                     <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Parede 3D">
                     <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
@@ -162,7 +178,6 @@
             <div id="cat-pintura-eletrica" class="servico-container">
                 <div class="carrossel-container">
                     <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <!-- Imagens ilustrativas de Iluminação e Acabamento -->
                     <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Iluminação">
                     <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Elétrica e Pintura">
                     <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
@@ -172,13 +187,14 @@
                 </button>
             </div>
 
-            <!-- CARROSSEL 3: PINTURA PREDIAL E RESIDENCIAL -->
+            <!-- CARROSSEL 3: PINTURA PREDIAL E RESIDENCIAL (FOTOS ATUALIZADAS) -->
             <div id="cat-pintura-predial" class="servico-container">
                 <div class="carrossel-container">
                     <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <!-- Imagens ilustrativas de Pintura de Fachadas e Interiores -->
-                    <img src="https://images.unsplash.com/photo-1595846519845-68e298c2cebc?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintura Residencial">
-                    <img src="https://images.unsplash.com/photo-1512411986422-7cd50854c86b?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Pintura Predial">
+                    <!-- Pintor a trabalhar -->
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintor em Ação">
+                    <!-- Fachada de Edifício Moderno Recém Pintado -->
+                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Pintura Predial Externa">
                     <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
                 </div>
                 <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Pintura Predial e Residencial')">
@@ -190,7 +206,6 @@
             <div id="cat-reparos" class="servico-container">
                 <div class="carrossel-container">
                     <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <!-- Imagens ilustrativas de Manutenção -->
                     <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Reparos">
                     <img src="https://images.unsplash.com/photo-1534398079543-7ae6d016b8bf?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Manutenção">
                     <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
@@ -203,7 +218,7 @@
         </div>
     </section>
 
-    <!-- Restante das Secções (Vagas, Depoimentos e Rodapé mantidos) -->
+    <!-- Restante das Secções (Vagas, Depoimentos e Rodapé) -->
     <section id="vagas">
         <h2>Trabalhe Connosco</h2>
         <div class="secao-branca" style="padding: 30px;">
@@ -254,7 +269,7 @@
         </div>
     </footer>
 
-    <!-- NOVO: MODAL DE ORÇAMENTO (WhatsApp Integrado) -->
+    <!-- MODAL DE ORÇAMENTO WHATSAPP -->
     <div id="modal-orcamento" class="modal">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModal('modal-orcamento')">&times;</span>
@@ -270,19 +285,18 @@
                 </div>
                 <div class="form-group">
                     <label>Serviço Desejado</label>
-                    <input type="text" id="orcServico" readonly style="background-color: #eee; font-weight: bold;">
+                    <input type="text" id="orcServico" readonly style="background-color: #eee; font-weight: bold; cursor: not-allowed;">
                 </div>
                 <div class="form-group">
                     <label>Detalhes adicionais (Opcional)</label>
                     <textarea id="orcDetalhes" placeholder="Fale um pouco sobre o que precisa..." style="height: 80px;"></textarea>
                 </div>
-                <!-- Botão envia direto para o WhatsApp -->
                 <button type="button" class="btn-acao btn-whatsapp" onclick="enviarParaWhatsApp()">Enviar pedido por WhatsApp</button>
             </form>
         </div>
     </div>
 
-    <!-- Modais Antigos (Vagas e Relatos mantidos) -->
+    <!-- Modais de Vagas e Relatos -->
     <div id="modal-candidatura" class="modal">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModal('modal-candidatura')">&times;</span>
@@ -310,7 +324,7 @@
     </div>
 
     <script>
-        // --- 1. LÓGICA DE ABRIR E FECHAR MODAIS ---
+        // Modais Gerais
         function abrirModal(id, vagaNome = '') { 
             document.getElementById(id).style.display = 'flex'; 
             if(id === 'modal-candidatura') { document.getElementById('vagaAlvo').value = vagaNome; }
@@ -321,7 +335,7 @@
             if (event.target.classList.contains('modal')) { event.target.style.display = "none"; } 
         }
 
-        // --- 2. LÓGICA DO NOVO FORMULÁRIO WHATSAPP ---
+        // Modal de Orçamento
         function abrirModalOrcamento(servico) {
             document.getElementById('orcServico').value = servico;
             document.getElementById('modal-orcamento').style.display = 'flex';
@@ -338,48 +352,45 @@
                 return;
             }
 
-            // Constrói a mensagem
             let mensagem = `Olá, Visual Gesso! Gostaria de pedir um orçamento.\n\n`;
             mensagem += `*Nome:* ${nome}\n`;
             mensagem += `*Morada:* ${endereco}\n`;
             mensagem += `*Serviço de interesse:* ${servico}\n`;
-            if(detalhes) {
-                mensagem += `*Detalhes:* ${detalhes}\n`;
-            }
+            if(detalhes) { mensagem += `*Detalhes:* ${detalhes}\n`; }
 
-            // Codifica para formato de link (URL)
             const urlWhatsApp = `https://wa.me/5551982005698?text=${encodeURIComponent(mensagem)}`;
-            
-            // Abre o WhatsApp e fecha o modal
             window.open(urlWhatsApp, '_blank');
             fecharModal('modal-orcamento');
         }
 
-        // --- 3. LÓGICA DAS TAGS / ABAS DE SERVIÇOS ---
-        function verEspecialidade(idCategoria, titulo) {
-            // Esconder todas as secções de serviço
+        // Lógica de Trocar as Especialidades e Pintar Botão Ativo
+        function verEspecialidade(idCategoria, titulo, elementoClicado) {
+            // Remover 'ativo' de todos os containers de serviço
             const containers = document.querySelectorAll('.servico-container');
             containers.forEach(container => container.classList.remove('ativo'));
 
-            // Mostrar apenas a selecionada
+            // Remover 'ativa' de todos os botões
+            const botoes = document.querySelectorAll('.tag-hero');
+            botoes.forEach(btn => btn.classList.remove('ativa'));
+
+            // Adicionar 'ativo' apenas ao container e botão selecionados
             document.getElementById('cat-' + idCategoria).classList.add('ativo');
+            elementoClicado.classList.add('ativa');
             
-            // Mudar o Título
+            // Alterar o Título
             document.getElementById('titulo-categoria-ativa').innerText = titulo;
 
-            // Fazer scroll suave até à secção
+            // Fazer scroll até ao carrossel
             document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' });
 
-            // Reiniciar o carrossel no slide 0 para a nova categoria
+            // Resetar o Carrossel da nova secção
             slideIndex = 0;
             atualizarSlideVisivel();
-            
-            // Reiniciar temporizador automático
             clearInterval(temporizadorCarrossel);
             iniciarCarrossel();
         }
 
-        // --- 4. LÓGICA DO CARROSSEL (Adaptada para múltiplas abas) ---
+        // Lógica do Carrossel Automático
         let slideIndex = 0;
         let temporizadorCarrossel;
 
@@ -388,7 +399,6 @@
         }
 
         function mudarSlide(n, cliqueManual = false) {
-            // Procura apenas as imagens dentro da aba que está ativa no momento
             const containerAtivo = document.querySelector('.servico-container.ativo');
             const slides = containerAtivo.querySelectorAll('.carrossel-slide');
             
@@ -402,13 +412,9 @@
             
             slides[slideIndex].classList.add('ativo');
 
-            if(cliqueManual) { 
-                clearInterval(temporizadorCarrossel); 
-                iniciarCarrossel(); 
-            }
+            if(cliqueManual) { clearInterval(temporizadorCarrossel); iniciarCarrossel(); }
         }
 
-        // Função auxiliar para garantir que a foto certa é mostrada ao mudar de categoria
         function atualizarSlideVisivel() {
             const containerAtivo = document.querySelector('.servico-container.ativo');
             const slides = containerAtivo.querySelectorAll('.carrossel-slide');
@@ -416,7 +422,6 @@
             if(slides.length > 0) slides[0].classList.add('ativo');
         }
 
-        // Iniciar
         iniciarCarrossel();
     </script>
 </body>
