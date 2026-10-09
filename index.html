@@ -119,20 +119,58 @@
         .lista-quem-somos li { background: #f0f2f5; padding: 8px 16px; border-radius: 30px; font-weight: bold; color: var(--texto-escuro); font-size: 0.9rem; display: flex; align-items: center; gap: 6px; }
         .lista-quem-somos li i { color: var(--primaria); font-style: normal; }
 
-        /* Controlo de Secções de Serviço */
-        .servico-container { display: none; animation: fadeIn 0.5s; }
-        .servico-container.ativo { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
+        /* --- Estrutura do Carrossel de Carrosséis (Carrossel Pai) --- */
+        .carrossel-pai-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .carrossel-pai-trilho {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+        }
+
+        .slide-pai {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 0 5px;
+        }
+
         .titulo-servico-ativo { text-align: center; color: var(--primaria); margin-bottom: 10px; font-size: 1.2rem; }
 
-        /* Carrossel */
-        .carrossel-container { position: relative; width: 100%; height: 380px; overflow: hidden; border-radius: 10px; box-shadow: var(--sombra); }
+        /* Setas de navegação do Carrossel Pai */
+        .btn-pai {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primaria);
+            color: white;
+            border: none;
+            font-size: 1.4rem;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-pai:hover { background: #e65c00; transform: translateY(-50%) scale(1.05); }
+        .btn-pai-voltar { left: 5px; }
+        .btn-pai-avancar { right: 5px; }
+
+        /* --- Carrossel Filho (Fotos de cada Serviço) --- */
+        .carrossel-filho-container { position: relative; width: 100%; height: 380px; overflow: hidden; border-radius: 10px; box-shadow: var(--sombra); }
         .carrossel-slide { display: none; width: 100%; height: 100%; object-fit: cover; }
         .carrossel-slide.ativo { display: block; animation: fade 0.5s ease-in-out; }
         @keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
         
-        .btn-carrossel { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.85); color: var(--primaria); border: none; font-size: 1.3rem; padding: 10px; cursor: pointer; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .btn-carrossel { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.85); color: var(--primaria); border: none; font-size: 1.3rem; padding: 10px; cursor: pointer; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: background 0.3s; z-index: 5; }
         .btn-carrossel:hover { background: var(--primaria); color: white; }
         .btn-voltar { left: 12px; }
         .btn-avancar { right: 12px; }
@@ -185,7 +223,8 @@
             section { padding: 10px 3%; scroll-margin-top: 95px; }
             .quem-somos-content { padding: 18px 12px; }
             .quem-somos-content h1 { font-size: 1.5rem; }
-            .carrossel-container { height: 220px; }
+            .carrossel-filho-container { height: 220px; }
+            .btn-pai { width: 36px; height: 36px; font-size: 1.1rem; }
             .secao-branca { padding: 12px !important; margin-bottom: 8px; }
         }
     </style>
@@ -258,65 +297,74 @@
         </div>
     </section>
 
-    <!-- Secção de Portfólio Controlada pelo Menu -->
+    <!-- Secção de Portfólio: Carrossel de Carrosséis -->
     <section id="portfolio">
         <h2>Serviços Realizados</h2>
-        <div class="secao-branca" style="padding: 15px;">
+        <div class="carrossel-pai-wrapper secao-branca">
             
-            <h3 id="titulo-categoria-ativa" class="titulo-servico-ativo">Especialistas em Drywall</h3>
+            <!-- Setas de Navegação do Carrossel Pai (Categorias) -->
+            <button class="btn-pai btn-pai-voltar" onclick="mudarCategoriaPai(-1)">&#10094;</button>
+            <button class="btn-pai btn-pai-avancar" onclick="mudarCategoriaPai(1)">&#10095;</button>
 
-            <!-- CARROSSEL 1: DRYWALL -->
-            <div id="cat-drywall" class="servico-container ativo">
-                <div class="carrossel-container">
-                    <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Sanca Fechada">
-                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Parede 3D">
-                    <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
+            <div class="carrossel-pai-trilho" id="trilhoPai">
+
+                <!-- SLIDE PAI 1: DRYWALL -->
+                <div class="slide-pai">
+                    <h3 class="titulo-servico-ativo">Especialistas em Drywall</h3>
+                    <div class="carrossel-filho-container">
+                        <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Sanca Fechada">
+                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Parede 3D">
+                        <button class="btn-carrossel btn-avancar" onclick="mudarSlideFilho(this, 1)">&#10095;</button>
+                    </div>
+                    <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Especialistas em Drywall')">
+                        Solicitar Orçamento para Drywall
+                    </button>
                 </div>
-                <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Especialistas em Drywall')">
-                    Solicitar Orçamento para Drywall
-                </button>
-            </div>
 
-            <!-- CARROSSEL 2: PINTURA E ELÉTRICA -->
-            <div id="cat-pintura-eletrica" class="servico-container">
-                <div class="carrossel-container">
-                    <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Iluminação">
-                    <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Elétrica e Pintura">
-                    <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
+                <!-- SLIDE PAI 2: PINTURA E ELÉTRICA -->
+                <div class="slide-pai">
+                    <h3 class="titulo-servico-ativo">Pintura e Elétrica</h3>
+                    <div class="carrossel-filho-container">
+                        <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
+                        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Iluminação">
+                        <img src="https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Elétrica e Pintura">
+                        <button class="btn-carrossel btn-avancar" onclick="mudarSlideFilho(this, 1)">&#10095;</button>
+                    </div>
+                    <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Pintura e Elétrica')">
+                        Solicitar Orçamento para Pintura e Elétrica
+                    </button>
                 </div>
-                <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Pintura e Elétrica')">
-                    Solicitar Orçamento para Pintura e Elétrica
-                </button>
-            </div>
 
-            <!-- CARROSSEL 3: PINTURA PREDIAL E RESIDENCIAL -->
-            <div id="cat-pintura-predial" class="servico-container">
-                <div class="carrossel-container">
-                    <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintor em Ação">
-                    <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Pintura Predial Externa">
-                    <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
+                <!-- SLIDE PAI 3: PINTURA PREDIAL -->
+                <div class="slide-pai">
+                    <h3 class="titulo-servico-ativo">Pintura Predial e Residencial</h3>
+                    <div class="carrossel-filho-container">
+                        <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
+                        <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintor em Ação">
+                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Pintura Predial Externa">
+                        <button class="btn-carrossel btn-avancar" onclick="mudarSlideFilho(this, 1)">&#10095;</button>
+                    </div>
+                    <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Pintura Predial e Residencial')">
+                        Solicitar Orçamento de Pintura
+                    </button>
                 </div>
-                <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Pintura Predial e Residencial')">
-                    Solicitar Orçamento de Pintura
-                </button>
-            </div>
 
-            <!-- CARROSSEL 4: REPAROS E MANUTENÇÃO -->
-            <div id="cat-reparos" class="servico-container">
-                <div class="carrossel-container">
-                    <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1, true)">&#10094;</button>
-                    <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Reparos">
-                    <img src="https://images.unsplash.com/photo-1534398079543-7ae6d016b8bf?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Manutenção">
-                    <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1, true)">&#10095;</button>
+                <!-- SLIDE PAI 4: REPAROS -->
+                <div class="slide-pai">
+                    <h3 class="titulo-servico-ativo">Reparos e Manutenção</h3>
+                    <div class="carrossel-filho-container">
+                        <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
+                        <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Reparos">
+                        <img src="https://images.unsplash.com/photo-1534398079543-7ae6d016b8bf?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Manutenção">
+                        <button class="btn-carrossel btn-avancar" onclick="mudarSlideFilho(this, 1)">&#10095;</button>
+                    </div>
+                    <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Reparos e Manutenção')">
+                        Solicitar Orçamento de Reparos
+                    </button>
                 </div>
-                <button class="btn-acao btn-whatsapp btn-centro" onclick="abrirModalOrcamento('Reparos e Manutenção')">
-                    Solicitar Orçamento de Reparos
-                </button>
-            </div>
 
+            </div>
         </div>
     </section>
 
@@ -484,57 +532,55 @@
             fecharModal('modal-orcamento');
         }
 
-        // Função chamada pelo menu Dropdown
-        function verEspecialidade(idCategoria, titulo) {
-            const containers = document.querySelectorAll('.servico-container');
-            containers.forEach(container => container.classList.remove('ativo'));
+        // --- Lógica do Carrossel Pai (Navegação entre Categorias) ---
+        let indexPai = 0;
 
-            document.getElementById('cat-' + idCategoria).classList.add('ativo');
-            document.getElementById('titulo-categoria-ativa').innerText = titulo;
+        function mudarCategoriaPai(direcao) {
+            const trilho = document.getElementById('trilhoPai');
+            const totalSlidesPai = document.querySelectorAll('.slide-pai').length;
+            
+            indexPai += direcao;
+            
+            if (indexPai >= totalSlidesPai) indexPai = 0;
+            if (indexPai < 0) indexPai = totalSlidesPai - 1;
+            
+            trilho.style.transform = `translateX(-${indexPai * 100}%)`;
+        }
+
+        // Integração do Menu Dropdown/Mobile com o Carrossel Pai
+        function verEspecialidade(idCategoria, titulo) {
+            const mapeamento = {
+                'drywall': 0,
+                'pintura-eletrica': 1,
+                'pintura-predial': 2,
+                'reparos': 3
+            };
+            
+            if (mapeamento[idCategoria] !== undefined) {
+                indexPai = mapeamento[idCategoria];
+                document.getElementById('trilhoPai').style.transform = `translateX(-${indexPai * 100}%)`;
+            }
 
             setTimeout(() => {
                 document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 50);
-
-            slideIndex = 0;
-            atualizarSlideVisivel();
-            clearInterval(temporizadorCarrossel);
-            iniciarCarrossel();
         }
 
-        // Lógica do Carrossel Automático
-        let slideIndex = 0;
-        let temporizadorCarrossel;
-
-        function iniciarCarrossel() { 
-            temporizadorCarrossel = setInterval(() => { mudarSlide(1, false); }, 4000); 
+        // --- Lógica do Carrossel Filho (Fotos da mesma Categoria) ---
+        function mudarSlideFilho(botao, direcao) {
+            const containerFilho = botao.closest('.carrossel-filho-container');
+            const slides = containerFilho.querySelectorAll('.carrossel-slide');
+            
+            let slideAtivoIndex = Array.from(slides).findIndex(slide => slide.classList.contains('ativo'));
+            
+            slides[slideAtivoIndex].classList.remove('ativo');
+            
+            slideAtivoIndex += direcao;
+            if (slideAtivoIndex >= slides.length) slideAtivoIndex = 0;
+            if (slideAtivoIndex < 0) slideAtivoIndex = slides.length - 1;
+            
+            slides[slideAtivoIndex].classList.add('ativo');
         }
-
-        function mudarSlide(n, cliqueManual = false) {
-            const containerAtivo = document.querySelector('.servico-container.ativo');
-            const slides = containerAtivo.querySelectorAll('.carrossel-slide');
-            
-            if(slides.length === 0) return;
-            
-            slides[slideIndex].classList.remove('ativo');
-            slideIndex += n;
-            
-            if(slideIndex >= slides.length) slideIndex = 0;
-            if(slideIndex < 0) slideIndex = slides.length - 1;
-            
-            slides[slideIndex].classList.add('ativo');
-
-            if(cliqueManual) { clearInterval(temporizadorCarrossel); iniciarCarrossel(); }
-        }
-
-        function atualizarSlideVisivel() {
-            const containerAtivo = document.querySelector('.servico-container.ativo');
-            const slides = containerAtivo.querySelectorAll('.carrossel-slide');
-            slides.forEach(slide => slide.classList.remove('ativo'));
-            if(slides.length > 0) slides[0].classList.add('ativo');
-        }
-
-        iniciarCarrossel();
     </script>
 </body>
 </html>
