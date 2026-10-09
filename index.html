@@ -22,18 +22,32 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--fundo-site); color: var(--texto-escuro); line-height: 1.5; scroll-behavior: smooth; }
         
-        /* Cabeçalho mantido intacto */
+        /* Cabeçalho sticky */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 5%; background-color: var(--fundo-site); 
             box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
-            position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; 
+            position: sticky; top: 0; z-index: 1000;
         }
         
         .logo { background-color: transparent; padding: 5px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: auto; }
-        .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; display: block; }
+        .logo img { height: 75px; max-width: 100%; object-fit: contain; transition: height 0.3s; display: block; }
         
-        /* Navegação e Dropdown (Cascata) */
+        /* Botão Hambúrguer (Escondido por padrão no PC) */
+        .hamburger-btn {
+            display: none;
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            font-size: 1.5rem;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--texto-escuro);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navegação Desktop */
         nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; }
         nav a, .dropbtn { color: var(--texto-escuro); text-decoration: none; font-weight: 600; font-size: 1.05rem; transition: all 0.3s ease; padding: 5px 0; cursor: pointer; border: none; background: none; font-family: inherit; }
         nav a:hover, .dropbtn:hover { color: var(--primaria); }
@@ -45,14 +59,55 @@
         .dropdown-content a:hover { background-color: rgba(255, 102, 0, 0.08); color: var(--primaria); padding-left: 25px; }
         .dropdown:hover .dropdown-content { display: block; }
 
-        /* Espaçamentos verticais das secções reduzidos */
-        section { padding: 15px 5%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 140px; }
+        /* Menu Overlay/Drawer em Mobile */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            backdrop-filter: blur(2px);
+        }
+        
+        .mobile-drawer {
+            position: fixed;
+            top: 0; right: -280px; width: 280px; height: 100%;
+            background-color: var(--fundo-secao);
+            z-index: 2000;
+            box-shadow: -4px 0 15px rgba(0,0,0,0.15);
+            transition: right 0.3s ease;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-drawer.aberto { right: 0; }
+        
+        .mobile-drawer-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;
+        }
+
+        .fechar-drawer { font-size: 1.8rem; cursor: pointer; color: #888; }
+        .mobile-drawer ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .mobile-drawer a, .mobile-drawer .dropbtn-mobile {
+            font-size: 1rem; font-weight: 600; color: var(--texto-escuro);
+            text-decoration: none; display: block; padding: 8px 0; border: none; background: none; text-align: left; width: 100%;
+        }
+
+        .sub-menu-mobile {
+            display: flex; flex-direction: column; gap: 8px; padding-left: 15px; margin-top: 5px;
+        }
+        .sub-menu-mobile a { font-size: 0.9rem; font-weight: normal; color: var(--texto-cinza); }
+
+        /* Espaçamentos verticais das secções */
+        section { padding: 15px 5%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 100px; }
         .secao-branca { background-color: var(--fundo-secao); border-radius: 12px; box-shadow: var(--sombra); margin-bottom: 10px; }
         
         h2 { text-align: center; color: var(--texto-escuro); margin-bottom: 12px; font-size: 1.6rem; position: relative; }
         h2::after { content: ''; display: block; width: 50px; height: 3px; background-color: var(--primaria); margin: 6px auto 0; border-radius: 2px; }
 
-        /* Secção Quem Somos com padding reduzido */
+        /* Secção Quem Somos */
         #quem-somos { padding-top: 15px; }
         .quem-somos-content { padding: 25px 20px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         .quem-somos-content h1 { font-size: 2rem; color: var(--texto-escuro); margin-bottom: 10px; }
@@ -116,19 +171,15 @@
         .powered-by a { color: var(--primaria); font-weight: bold; text-decoration: none; transition: color 0.3s; }
         .powered-by a:hover { color: var(--secundaria); }
 
-        /* Ajustes específicos para Telemóvel (Mobile) com cabeçalho original mantido */
+        /* Ajustes Responsivos para Telemóvel */
         @media (max-width: 768px) {
-            header { flex-direction: column; justify-content: center; padding: 10px 0; gap: 15px; }
+            header { padding: 8px 15px; }
+            .logo img { height: 50px; } 
             
-            .logo { width: 100%; padding: 0; border-radius: 0; }
-            .logo img { width: 100%; height: auto; max-height: 120px; object-fit: cover; border-radius: 0; } 
+            nav.nav-desktop { display: none; }
+            .hamburger-btn { display: flex; }
             
-            nav ul { width: 100%; justify-content: center; gap: 8px; flex-direction: row; padding: 0 10px; }
-            nav a, .dropbtn { font-size: 0.85rem; background-color: #ffffff; padding: 8px 12px; border-radius: 20px; border: 1px solid #cccccc; display: inline-block; }
-            
-            .dropdown-content { min-width: 200px; top: calc(100% + 5px); }
-            
-            section { padding: 10px 3%; scroll-margin-top: 220px; }
+            section { padding: 10px 3%; scroll-margin-top: 75px; }
             .quem-somos-content { padding: 18px 12px; }
             .quem-somos-content h1 { font-size: 1.5rem; }
             .carrossel-container { height: 220px; }
@@ -142,10 +193,11 @@
         <div class="logo">
             <img src="logo.png" alt="Visual Gesso Logo">
         </div>
-        <nav>
+        
+        <!-- Navegação Desktop -->
+        <nav class="nav-desktop">
             <ul>
                 <li><a href="#quem-somos">Quem Somos</a></li>
-                <!-- Dropdown de Especialidades -->
                 <li class="dropdown">
                     <button class="dropbtn">Especialidades &#9662;</button>
                     <div class="dropdown-content">
@@ -159,7 +211,33 @@
                 <li><a href="#depoimentos">Depoimentos</a></li>
             </ul>
         </nav>
+
+        <!-- Botão Hambúrguer Mobile -->
+        <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
     </header>
+
+    <!-- Gaveta de Menu Mobile -->
+    <div id="mobileOverlay" class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    <div id="mobileDrawer" class="mobile-drawer">
+        <div class="mobile-drawer-header">
+            <span style="font-weight: bold; color: var(--primaria);">Menu</span>
+            <span class="fechar-drawer" onclick="toggleMobileMenu()">&times;</span>
+        </div>
+        <ul>
+            <li><a href="#quem-somos" onclick="toggleMobileMenu()">Quem Somos</a></li>
+            <li>
+                <div class="dropbtn-mobile" style="color: var(--primaria); font-weight: bold;">Especialidades:</div>
+                <div class="sub-menu-mobile">
+                    <a href="javascript:void(0)" onclick="verEspecialidadeMobile('drywall', 'Especialistas em Drywall')">🏠 Drywall</a>
+                    <a href="javascript:void(0)" onclick="verEspecialidadeMobile('pintura-eletrica', 'Pintura e Elétrica')">💡 Pintura e Elétrica</a>
+                    <a href="javascript:void(0)" onclick="verEspecialidadeMobile('pintura-predial', 'Pintura Predial e Residencial')">🎨 Pintura Predial</a>
+                    <a href="javascript:void(0)" onclick="verEspecialidadeMobile('reparos', 'Reparos e Manutenção')">🛠️ Reparos e Manutenção</a>
+                </div>
+            </li>
+            <li><a href="#vagas" onclick="toggleMobileMenu()">Trabalhe Connosco</a></li>
+            <li><a href="#depoimentos" onclick="toggleMobileMenu()">Depoimentos</a></li>
+        </ul>
+    </div>
 
     <!-- Secção: Quem Somos -->
     <section id="quem-somos">
@@ -345,6 +423,25 @@
     </div>
 
     <script>
+        // Função do Menu Hambúrguer Mobile
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const overlay = document.getElementById('mobileOverlay');
+            
+            if (drawer.classList.contains('aberto')) {
+                drawer.classList.remove('aberto');
+                overlay.style.display = 'none';
+            } else {
+                drawer.classList.add('aberto');
+                overlay.style.display = 'block';
+            }
+        }
+
+        function verEspecialidadeMobile(idCategoria, titulo) {
+            toggleMobileMenu();
+            verEspecialidade(idCategoria, titulo);
+        }
+
         // Modais Gerais
         function abrirModal(id, vagaNome = '') { 
             document.getElementById(id).style.display = 'flex'; 
