@@ -1,52 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Admin - Visual Gesso</title>
     <style>
-        :root {
-            --primaria: #FF6600;
-            --fundo: #f4f4f9;
-            --texto: #333;
-            --painel: #ffffff;
-        }
-        body { font-family: Arial, sans-serif; margin: 0; background: var(--fundo); color: var(--texto); display: flex; }
+        :root { --primaria: #FF6600; --fundo: #f4f4f9; --texto: #333; --painel: #ffffff; }
+        body { font-family: Arial, sans-serif; margin: 0; background: var(--fundo); color: var(--texto); display: flex; flex-wrap: wrap; }
         
-        /* Menu Lateral */
-        aside { width: 250px; background: #111; color: white; height: 100vh; padding: 20px 0; position: fixed; }
+        /* Menu e Responsividade Admin */
+        aside { width: 250px; background: #111; color: white; min-height: 100vh; padding: 20px 0; }
         aside img { width: 80%; margin: 0 auto 20px; display: block; }
         aside ul { list-style: none; padding: 0; }
-        aside li { padding: 15px 20px; cursor: pointer; border-left: 4px solid transparent; transition: 0.3s; }
+        aside li { padding: 15px 20px; cursor: pointer; border-left: 4px solid transparent; }
         aside li:hover, aside li.ativo { background: #222; border-left-color: var(--primaria); color: var(--primaria); font-weight: bold; }
-
-        /* Área de Conteúdo */
-        main { margin-left: 250px; padding: 30px; width: 100%; }
+        main { flex: 1; padding: 30px; min-width: 300px; }
+        
         .aba-conteudo { display: none; background: var(--painel); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .aba-conteudo.ativo { display: block; }
 
-        /* Elementos de Interface */
-        h2 { color: #111; margin-top: 0; }
-        .stats-cards { display: flex; gap: 20px; margin-bottom: 20px; }
-        .card { flex: 1; background: #eee; padding: 20px; border-radius: 8px; text-align: center; font-size: 1.2rem; }
-        .card span { display: block; font-size: 2rem; font-weight: bold; color: var(--primaria); }
-
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; word-break: break-word; }
         th { background: #f8f8f8; }
         
-        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; }
-        .btn-verde { background: #28a745; }
-        .btn-vermelho { background: #dc3545; }
-        .btn-azul { background: #007bff; }
-        .btn-laranja { background: var(--primaria); }
+        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; color: white; font-weight: bold; margin: 2px; }
+        .btn-verde { background: #28a745; } .btn-vermelho { background: #dc3545; } .btn-laranja { background: var(--primaria); }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;}
         
         .carrossel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; }
+        .carrossel-grid div { position: relative; }
         .carrossel-grid img { width: 100%; height: 100px; object-fit: cover; border-radius: 4px; }
+        .btn-del-img { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -55,8 +42,9 @@
         <img src="logo.png" alt="Logo Admin">
         <ul>
             <li class="aba-btn ativo" onclick="abrirAba('aba-depoimentos', this)">Depoimentos</li>
-            <li class="aba-btn" onclick="abrirAba('aba-carrossel', this)">Gestão de Carrosséis</li>
-            <li class="aba-btn" onclick="abrirAba('aba-vagas', this)">Ofertas de Vagas</li>
+            <li class="aba-btn" onclick="abrirAba('aba-carrossel', this)">Portfólio</li>
+            <li class="aba-btn" onclick="abrirAba('aba-vagas', this)">Vagas</li>
+            <li class="aba-btn" onclick="abrirAba('aba-candidaturas', this)">Candidaturas Recebidas</li>
         </ul>
     </aside>
 
@@ -64,115 +52,209 @@
         <!-- Aba: Depoimentos -->
         <section id="aba-depoimentos" class="aba-conteudo ativo">
             <h2>Gestão de Relatos</h2>
-            <div class="stats-cards">
-                <div class="card">Total Recebido<span>24</span></div>
-                <div class="card">Pendentes<span>5</span></div>
-                <div class="card">Postados<span>19</span></div>
-            </div>
-
-            <h3>Relatos Pendentes</h3>
-            <table>
-                <tr>
-                    <th>Nome</th>
-                    <th>Relato</th>
-                    <th>Ações</th>
-                </tr>
-                <tr>
-                    <td>Carlos Souza</td>
-                    <td>"Excelente serviço na reforma do meu quarto."</td>
-                    <td>
-                        <button class="btn btn-verde">Validar</button>
-                        <button class="btn btn-vermelho">Excluir</button>
-                    </td>
-                </tr>
+            <h3>Pendentes</h3>
+            <table id="tabela-pendentes">
+                <tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>
             </table>
-
-            <h3 style="margin-top: 40px;">Relatos Postados</h3>
-            <table>
-                <tr>
-                    <th>Nome</th>
-                    <th>Relato</th>
-                    <th>Ações</th>
-                </tr>
-                <tr>
-                    <td>João Silva</td>
-                    <td>"Trabalho rápido e muito limpo..."</td>
-                    <td>
-                        <button class="btn btn-azul">Editar</button>
-                        <button class="btn btn-vermelho">Excluir</button>
-                    </td>
-                </tr>
+            <h3 style="margin-top: 40px;">Postados (Aprovados)</h3>
+            <table id="tabela-aprovados">
+                <tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>
             </table>
         </section>
 
         <!-- Aba: Carrossel -->
         <section id="aba-carrossel" class="aba-conteudo">
-            <h2>Gerenciar Portfólio (Carrosséis)</h2>
-            
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px dashed #ccc;">
-                <h3>Adicionar Imagens</h3>
-                <div class="form-group">
-                    <label>Selecione uma ou mais imagens:</label>
-                    <input type="file" multiple accept="image/*">
-                </div>
-                <button class="btn btn-laranja">Fazer Upload sem Limites</button>
+            <h2>Gerir Portfólio</h2>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <form id="formUploadImg">
+                    <div class="form-group">
+                        <label>Nova Imagem para o Carrossel:</label>
+                        <input type="file" id="arquivoImg" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn-laranja" id="btn-upload">Comprimir e Fazer Upload</button>
+                    <p id="status-upload"></p>
+                </form>
             </div>
-
-            <h3 style="margin-top: 30px;">Carrossel Principal Ativo</h3>
-            <div class="carrossel-grid">
-                <img src="https://via.placeholder.com/150" alt="Exemplo">
-                <img src="https://via.placeholder.com/150" alt="Exemplo">
-                <img src="https://via.placeholder.com/150" alt="Exemplo">
-            </div>
-
-            <button class="btn btn-azul" style="margin-top: 20px; width: 100%;">+ Criar novo carrossel abaixo</button>
+            <h3 style="margin-top: 30px;">Imagens Atuais</h3>
+            <div class="carrossel-grid" id="grid-imagens-admin"></div>
         </section>
 
         <!-- Aba: Vagas -->
         <section id="aba-vagas" class="aba-conteudo">
             <h2>Gestão de Vagas</h2>
-            
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h3>Nova Oferta de Vaga</h3>
-                <div class="form-group">
-                    <label>Nome da Vaga:</label>
-                    <input type="text" placeholder="Ex: Montador de Drywall">
-                </div>
-                <div class="form-group">
-                    <label>Definições e Requisitos:</label>
-                    <textarea placeholder="Descreva o que é necessário para a vaga..."></textarea>
-                </div>
-                <button class="btn btn-verde">Publicar Vaga</button>
+                <form id="formNovaVaga">
+                    <div class="form-group">
+                        <label>Nome da Vaga:</label>
+                        <input type="text" id="vagaNome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Requisitos:</label>
+                        <textarea id="vagaDesc" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-verde">Publicar Vaga</button>
+                </form>
             </div>
+            <table id="tabela-vagas">
+                <tr><th>Vaga</th><th>Definição</th><th>Ações</th></tr>
+            </table>
+        </section>
 
-            <h3>Vagas Ativas</h3>
-            <table>
-                <tr>
-                    <th>Vaga</th>
-                    <th>Definição</th>
-                    <th>Ações</th>
-                </tr>
-                <tr>
-                    <td>Montador de Drywall</td>
-                    <td>Necessário experiência comprovada...</td>
-                    <td>
-                        <button class="btn btn-azul">Editar</button>
-                        <button class="btn btn-vermelho">Encerrar</button>
-                    </td>
-                </tr>
+        <!-- Aba: Candidaturas -->
+        <section id="aba-candidaturas" class="aba-conteudo">
+            <h2>Candidaturas Recebidas</h2>
+            <table id="tabela-cand">
+                <tr><th>Vaga</th><th>Candidato</th><th>Endereço</th><th>Qualificações</th></tr>
             </table>
         </section>
     </main>
 
     <script>
-        // Função para alternar entre as abas do painel admin
+        // Navegação Visual do Admin
         function abrirAba(idAba, elementoBtn) {
-            document.querySelectorAll('.aba-conteudo').forEach(aba => aba.classList.remove('ativo'));
-            document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativo'));
-            
+            document.querySelectorAll('.aba-conteudo').forEach(a => a.classList.remove('ativo'));
+            document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));
             document.getElementById(idAba).classList.add('ativo');
             elementoBtn.classList.add('ativo');
         }
+    </script>
+
+    <!-- Integração Firebase Admin -->
+    <script type="module">
+        import { db, storage } from './js/firebase-config.js';
+        import { compressImage } from './js/compressor.js';
+        import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+
+        // --- GESTÃO DE DEPOIMENTOS ---
+        async function carregarDepoimentosAdmin() {
+            const pendentes = document.getElementById('tabela-pendentes');
+            const aprovados = document.getElementById('tabela-aprovados');
+            pendentes.innerHTML = '<tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>';
+            aprovados.innerHTML = '<tr><th>Nome</th><th>Relato</th><th>Ações</th></tr>';
+
+            const querySnapshot = await getDocs(collection(db, "depoimentos"));
+            querySnapshot.forEach((d) => {
+                const data = d.data();
+                const id = d.id;
+                const linha = `<tr><td>${data.nome}</td><td>${data.texto}</td>
+                    <td>
+                        ${data.status === 'pendente' ? `<button class="btn btn-verde" onclick="aprovarRelato('${id}')">Aprovar</button>` : ''}
+                        <button class="btn btn-vermelho" onclick="excluirDoc('depoimentos', '${id}')">Excluir</button>
+                    </td></tr>`;
+                if(data.status === 'pendente') pendentes.innerHTML += linha;
+                else aprovados.innerHTML += linha;
+            });
+        }
+        
+        window.aprovarRelato = async (id) => {
+            await updateDoc(doc(db, "depoimentos", id), { status: 'aprovado' });
+            carregarDepoimentosAdmin();
+        }
+
+        // --- GESTÃO DE VAGAS ---
+        document.getElementById('formNovaVaga').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "vagas"), {
+                nome: document.getElementById('vagaNome').value,
+                descricao: document.getElementById('vagaDesc').value
+            });
+            e.target.reset();
+            carregarVagasAdmin();
+        });
+
+        async function carregarVagasAdmin() {
+            const tabela = document.getElementById('tabela-vagas');
+            tabela.innerHTML = '<tr><th>Vaga</th><th>Definição</th><th>Ações</th></tr>';
+            const querySnapshot = await getDocs(collection(db, "vagas"));
+            querySnapshot.forEach((d) => {
+                tabela.innerHTML += `<tr><td>${d.data().nome}</td><td>${d.data().descricao}</td>
+                <td><button class="btn btn-vermelho" onclick="excluirDoc('vagas', '${d.id}')">Excluir</button></td></tr>`;
+            });
+        }
+
+        // --- GESTÃO DO CARROSSEL (Upload com Compressão) ---
+        document.getElementById('formUploadImg').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('arquivoImg').files[0];
+            const status = document.getElementById('status-upload');
+            if(!file) return;
+
+            status.innerText = "A comprimir imagem...";
+            status.style.color = "blue";
+            
+            try {
+                // Utiliza a sua função client-side
+                const compressedBlob = await compressImage(file, 1024, 0.75); 
+                
+                status.innerText = "A enviar para o servidor...";
+                const fileName = `img_${Date.now()}.jpg`;
+                const storageRef = ref(storage, `carrossel/${fileName}`);
+                
+                await uploadBytes(storageRef, compressedBlob);
+                const url = await getDownloadURL(storageRef);
+                
+                await addDoc(collection(db, "carrossel"), { url: url, path: `carrossel/${fileName}`, dataEnvio: new Date() });
+                
+                status.innerText = "Upload concluído!";
+                status.style.color = "green";
+                e.target.reset();
+                carregarImagensAdmin();
+            } catch (err) {
+                status.innerText = "Erro: " + err.message;
+                status.style.color = "red";
+            }
+        });
+
+        async function carregarImagensAdmin() {
+            const grid = document.getElementById('grid-imagens-admin');
+            grid.innerHTML = '';
+            const q = query(collection(db, "carrossel"), orderBy("dataEnvio", "desc"));
+            const querySnapshot = await getDocs(q);
+            
+            querySnapshot.forEach((d) => {
+                const data = d.data();
+                grid.innerHTML += `<div>
+                    <img src="${data.url}">
+                    <button class="btn-del-img" onclick="excluirImagem('${d.id}', '${data.path}')">X</button>
+                </div>`;
+            });
+        }
+
+        window.excluirImagem = async (idDoc, pathStorage) => {
+            if(!confirm("Excluir imagem do portfólio?")) return;
+            try {
+                await deleteObject(ref(storage, pathStorage)); // Apaga o ficheiro
+                await excluirDoc('carrossel', idDoc); // Apaga a referência
+            } catch(e) { alert("Erro ao excluir ficheiro: " + e.message); }
+        }
+
+        // --- LEITURA DE CANDIDATURAS ---
+        async function carregarCandidaturas() {
+            const tabela = document.getElementById('tabela-cand');
+            tabela.innerHTML = '<tr><th>Vaga</th><th>Candidato</th><th>Endereço</th><th>Qualificações</th></tr>';
+            const querySnapshot = await getDocs(collection(db, "candidaturas"));
+            querySnapshot.forEach((d) => {
+                const c = d.data();
+                tabela.innerHTML += `<tr><td>${c.vaga}</td><td>${c.nome}</td><td>${c.endereco}</td><td>${c.qualificacoes}</td></tr>`;
+            });
+        }
+
+        // Função Global de Exclusão
+        window.excluirDoc = async (colecao, id) => {
+            if(confirm("Tem a certeza que deseja excluir?")) {
+                await deleteDoc(doc(db, colecao, id));
+                if(colecao === 'depoimentos') carregarDepoimentosAdmin();
+                if(colecao === 'vagas') carregarVagasAdmin();
+                if(colecao === 'carrossel') carregarImagensAdmin();
+            }
+        }
+
+        // Inicializar
+        carregarDepoimentosAdmin();
+        carregarVagasAdmin();
+        carregarImagensAdmin();
+        carregarCandidaturas();
     </script>
 </body>
 </html>
