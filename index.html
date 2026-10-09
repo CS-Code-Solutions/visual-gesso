@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Gesso - Gesso Convencional e Drywall</title>
+    <!-- Adicionando uma fonte moderna do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos Base - Identidade Visual Gesso */
+        :root {
+            --cor-fundo: #000000; /* Preto */
+            --cor-primaria: #FF6600; /* Laranja */
+            --cor-secundaria: #FFCC00; /* Amarelo */
+            --cor-texto: #FFFFFF; /* Branco */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background-color: #111;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid var(--cor-primaria);
+        }
+
+        header h1 {
+            margin: 0;
+            font-weight: 900;
+            font-size: 2.5rem;
+        }
+
+        header h1 span {
+            color: var(--cor-primaria);
+        }
+
+        main {
+            width: 90%;
+            max-width: 800px;
+            margin-top: 30px;
+        }
+
+        /* Seção Temporária de Administração (Upload) */
+        .admin-section {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--cor-secundaria);
+            margin-bottom: 30px;
+        }
+
+        .admin-section h2 {
+            margin-top: 0;
+            color: var(--cor-secundaria);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin-top: 10px;
+            color: var(--cor-texto);
+        }
+
+        button {
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #cc5200;
+        }
+
+        /* Galeria (Onde as imagens do Firebase vão aparecer) */
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .galeria img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>VISUAL <span>GESSO</span></h1>
+        <p>Gesso Convencional • Drywall • Reformas</p>
+    </header>
+
+    <main>
+        <!-- Esta secção será movida para o admin.html no futuro -->
+        <div class="admin-section">
+            <h2>Painel de Upload (Teste)</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="imagemInput">Selecione uma imagem do projeto (Sanca, Drywall, etc.):</label>
+                    <input type="file" id="imagemInput" accept="image/*" required>
+                </div>
+                <button type="submit" id="btnUpload">Comprimir e Enviar Imagem</button>
+            </form>
+            <p id="statusMensagem" style="color: var(--cor-secundaria); font-weight: bold; margin-top: 10px;"></p>
+        </div>
+
+        <div>
+            <h2>Nossos Projetos</h2>
+            <!-- As imagens carregadas do Firebase aparecerão aqui dentro -->
+            <div class="galeria" id="galeriaProjetos">
+                <!-- Exemplo visual do que será carregado pelo script futuramente -->
+                <!-- <img src="URL_DA_IMAGEM_NO_FIREBASE" alt="Projeto Gesso"> -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Importando os módulos como tipo 'module' -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/compressor.js"></script>
+    
+    <!-- Script principal para testar o upload -->
+    <script type="module">
+        import { storage, db } from './js/firebase-config.js';
+        import { compressImage } from './js/compressor.js';
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
+        import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+        const uploadForm = document.getElementById('uploadForm');
+        const imagemInput = document.getElementById('imagemInput');
+        const statusMensagem = document.getElementById('statusMensagem');
+        const galeriaProjetos = document.getElementById('galeriaProjetos');
+
+        // Função para carregar as imagens da galeria
+        async function carregarGaleria() {
+            galeriaProjetos.innerHTML = ''; // Limpa a galeria
+            const querySnapshot = await getDocs(collection(db, "projetos"));
+            querySnapshot.forEach((doc) => {
+                const dados = doc.data();
+                const imgElement = document.createElement('img');
+                imgElement.src = dados.url;
+                imgElement.alt = "Projeto Visual Gesso";
+                galeriaProjetos.appendChild(imgElement);
+            });
+        }
+
+        // Evento de Upload
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = imagemInput.files[0];
+            if (!file) return;
+
+            try {
+                statusMensagem.innerText = "A comprimir a imagem...";
+                
+                // 1. Comprime a imagem (reduz de megabytes para kilobytes)
+                const compressedBlob = await compressImage(file, 800, 0.7); 
+                
+                statusMensagem.innerText = "A fazer upload para o Firebase...";
+                
+                // 2. Cria referência no Storage com nome único
+                const nomeUnico = `projeto_${Date.now()}.jpg`;
+                const storageRef = ref(storage, `projetos/${nomeUnico}`);
+                
+                // 3. Envia o Blob para o Storage
+                await uploadBytes(storageRef, compressedBlob);
+                
+                // 4. Obtém o link público da imagem
+                const url = await getDownloadURL(storageRef);
+                
+                // 5. Salva o link no Firestore Database
+                await addDoc(collection(db, "projetos"), {
+                    url: url,
+                    dataEnvio: new Date()
+                });
+
+                statusMensagem.innerText = "Upload concluído com sucesso!";
+                statusMensagem.style.color = "lightgreen";
+                uploadForm.reset();
+                
+                // Atualiza a galeria na tela
+                carregarGaleria();
+
+            } catch (error) {
+                console.error("Erro no processo:", error);
+                statusMensagem.innerText = "Erro: " + error.message;
+                statusMensagem.style.color = "red";
+            }
+        });
+
+        // Carrega a galeria ao abrir a página
+        carregarGaleria();
+    </script>
+
+</body>
+</html>
