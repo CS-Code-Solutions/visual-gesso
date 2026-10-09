@@ -77,4 +77,191 @@
         .btn-centro { display: block; width: fit-content; margin: 30px auto 0; }
 
         /* Modais */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content:
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-content { background: var(--fundo-secao); padding: 40px; border-radius: 12px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .fechar { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.8rem; color: #999; }
+        .fechar:hover { color: var(--texto-escuro); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--texto-escuro); }
+        input, textarea, select { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ddd; background-color: #fcfcfc; font-family: inherit; font-size: 1rem; transition: border-color 0.3s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primaria); }
+        textarea { height: 120px; resize: vertical; }
+
+        /* Responsividade Extra para Telemóveis (AJUSTADO) */
+        @media (max-width: 768px) {
+            header { flex-direction: column; justify-content: center; padding: 15px 10px; gap: 15px; }
+            /* Logótipo em grande destaque no telemóvel */
+            .logo img { height: 95px; } 
+            
+            nav ul { width: 100%; justify-content: center; gap: 10px; }
+            /* Transformar os links em "pílulas" organizadas */
+            nav a { 
+                font-size: 0.9rem; background-color: #f4f4f4; padding: 8px 14px; 
+                border-radius: 20px; border: 1px solid #eaeaea; display: inline-block;
+            }
+            nav a:hover { background-color: rgba(255, 102, 0, 0.1); border-color: var(--primaria); }
+            
+            .carrossel-container { height: 300px; }
+            section { padding: 50px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Visual Gesso Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#portfolio">Serviços Realizados</a></li>
+                <li><a href="#vagas">Trabalhe Connosco</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="portfolio">
+        <h2>Serviços Realizados</h2>
+        <div class="secao-branca" style="padding: 20px;">
+            <div class="carrossel-container">
+                <button class="btn-carrossel btn-voltar" onclick="mudarSlide(-1)">&#10094;</button>
+                
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Projeto Sanca Fechada">
+                <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Parede 3D">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" class="carrossel-slide" alt="Projeto Iluminação">
+                
+                <button class="btn-carrossel btn-avancar" onclick="mudarSlide(1)">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="vagas">
+        <h2>Trabalhe Connosco</h2>
+        <div class="secao-branca" style="padding: 40px;">
+            <div class="grid-cards">
+                <div class="card">
+                    <h3>Montador de Drywall</h3>
+                    <p>Procuramos profissional com experiência em montagem de sancas, forros e divisórias. Necessário ter ferramentas próprias básicas.</p>
+                    <button class="btn-acao" onclick="abrirModal('modal-candidatura', 'Montador de Drywall')">Candidatar-me</button>
+                </div>
+                <div class="card">
+                    <h3>Ajudante de Gesseiro</h3>
+                    <p>Vaga para ajudante focado no acabamento e limpeza. Não é exigida experiência prévia, apenas vontade de aprender a profissão.</p>
+                    <button class="btn-acao" onclick="abrirModal('modal-candidatura', 'Ajudante de Gesseiro')">Candidatar-me</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="depoimentos">
+        <h2>O que os nossos clientes dizem</h2>
+        <div class="secao-branca" style="padding: 40px;">
+            <div class="grid-cards">
+                <div class="card">
+                    <span class="tag-servico">Sanca e Iluminação</span>
+                    <p>"A equipa da Visual Gesso transformou a minha sala. O teto rebaixado com iluminação indireta ficou exatamente como eu queria. Recomendo!"</p>
+                    <h4 style="color: var(--texto-escuro);">— Mariana Costa</h4>
+                </div>
+                <div class="card">
+                    <span class="tag-servico">Divisória Drywall</span>
+                    <p>"Fizeram a divisão do meu escritório em apenas dois dias. Serviço limpo, rápido e com um isolamento acústico excelente."</p>
+                    <h4 style="color: var(--texto-escuro);">— Roberto Almeida</h4>
+                </div>
+            </div>
+            <button class="btn-acao btn-centro" onclick="abrirModal('modal-relato')">Avaliar o nosso serviço</button>
+        </div>
+    </section>
+
+    <div id="modal-candidatura" class="modal">
+        <div class="modal-content">
+            <span class="fechar" onclick="fecharModal('modal-candidatura')">&times;</span>
+            <h2 style="margin-bottom: 20px; font-size: 1.5rem; text-align: left;">Envie o seu Currículo</h2>
+            <form id="formCandidatura">
+                <input type="hidden" id="vagaAlvo">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" required placeholder="Ex: João Silva">
+                </div>
+                <div class="form-group">
+                    <label>Morada / Endereço</label>
+                    <input type="text" required placeholder="A sua localidade">
+                </div>
+                <div class="form-group">
+                    <label>As suas qualificações e experiências</label>
+                    <textarea required placeholder="Fale um pouco sobre a sua experiência na área..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Anexar Currículo (Opcional)</label>
+                    <input type="file" accept=".pdf,.doc,.docx" style="background: transparent; border: none; padding: 0;">
+                </div>
+                <button type="button" class="btn-acao" onclick="fecharModal('modal-candidatura'); alert('Funcionalidade visual. Integração futura.')">Enviar Candidatura</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-relato" class="modal">
+        <div class="modal-content">
+            <span class="fechar" onclick="fecharModal('modal-relato')">&times;</span>
+            <h2 style="margin-bottom: 20px; font-size: 1.5rem; text-align: left;">Deixe o seu Relato</h2>
+            <form id="formRelato">
+                <div class="form-group">
+                    <label>O seu Nome</label>
+                    <input type="text" required placeholder="Como prefere ser chamado?">
+                </div>
+                <div class="form-group">
+                    <label>Qual foi o serviço contratado?</label>
+                    <select required>
+                        <option value="" disabled selected>Selecione uma opção...</option>
+                        <option value="Gesso Convencional">Gesso Convencional</option>
+                        <option value="Sanca e Iluminação">Sanca e Iluminação</option>
+                        <option value="Drywall (Divisórias)">Drywall (Divisórias)</option>
+                        <option value="Pintura">Pintura</option>
+                        <option value="Reforma Geral">Reforma Geral</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>O seu depoimento</label>
+                    <textarea required placeholder="Conte-nos como foi a sua experiência..."></textarea>
+                </div>
+                <button type="button" class="btn-acao" onclick="fecharModal('modal-relato'); alert('Funcionalidade visual. Integração futura.')">Enviar para Análise</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(id, vagaNome = '') { 
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex'; 
+            if(id === 'modal-candidatura') {
+                document.getElementById('vagaAlvo').value = vagaNome;
+            }
+        }
+
+        function fecharModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        let slideIndex = 0;
+        function mudarSlide(n) {
+            const slides = document.querySelectorAll('.carrossel-slide');
+            if(slides.length === 0) return;
+            
+            slides[slideIndex].classList.remove('ativo');
+            slideIndex += n;
+            
+            if(slideIndex >= slides.length) slideIndex = 0;
+            if(slideIndex < 0) slideIndex = slides.length - 1;
+            
+            slides[slideIndex].classList.add('ativo');
+        }
+    </script>
+</body>
+</html>
