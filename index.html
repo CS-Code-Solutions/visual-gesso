@@ -20,7 +20,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--fundo-site); color: var(--texto-escuro); line-height: 1.6; }
         
-        /* Cabeçalho Fixo e Claro (AJUSTADO) */
+        /* Cabeçalho Fixo e Claro */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 10px 5%; background-color: var(--fundo-secao); 
@@ -28,7 +28,16 @@
             position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; 
         }
         
-        /* Logótipo maior no desktop */
+        /* Fundo "Cinza Calopsita" no Logótipo */
+        .logo {
+            background-color: #d4d4d4; /* Tom cinza suave */
+            padding: 5px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .logo img { height: 85px; max-width: 100%; object-fit: contain; transition: height 0.3s; }
         
         nav ul { list-style: none; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
@@ -88,14 +97,12 @@
         input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primaria); }
         textarea { height: 120px; resize: vertical; }
 
-        /* Responsividade Extra para Telemóveis (AJUSTADO) */
+        /* Responsividade */
         @media (max-width: 768px) {
             header { flex-direction: column; justify-content: center; padding: 15px 10px; gap: 15px; }
-            /* Logótipo em grande destaque no telemóvel */
             .logo img { height: 95px; } 
             
             nav ul { width: 100%; justify-content: center; gap: 10px; }
-            /* Transformar os links em "pílulas" organizadas */
             nav a { 
                 font-size: 0.9rem; background-color: #f4f4f4; padding: 8px 14px; 
                 border-radius: 20px; border: 1px solid #eaeaea; display: inline-block;
