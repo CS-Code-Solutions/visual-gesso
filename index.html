@@ -138,31 +138,41 @@
             padding: 0 5px;
         }
 
-        .titulo-servico-ativo { text-align: center; color: var(--primaria); margin-bottom: 10px; font-size: 1.2rem; }
+        /* Cabeçalho do Título com as Setas Pai ao lado */
+        .header-carrossel-pai {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
 
-        /* Setas de navegação do Carrossel Pai */
+        .titulo-servico-ativo { 
+            text-align: center; 
+            color: var(--primaria); 
+            font-size: 1.2rem; 
+            margin: 0;
+            flex: 1;
+        }
+
+        /* Setas de navegação do Carrossel Pai ao Lado do Título */
         .btn-pai {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
             background: var(--primaria);
             color: white;
             border: none;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             border-radius: 50%;
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 20;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             transition: background 0.3s, transform 0.2s;
         }
-        .btn-pai:hover { background: #e65c00; transform: translateY(-50%) scale(1.05); }
-        .btn-pai-voltar { left: 5px; }
-        .btn-pai-avancar { right: 5px; }
+        .btn-pai:hover { background: #e65c00; transform: scale(1.08); }
 
         /* --- Carrossel Filho (Fotos de cada Serviço) --- */
         .carrossel-filho-container { position: relative; width: 100%; height: 380px; overflow: hidden; border-radius: 10px; box-shadow: var(--sombra); }
@@ -224,7 +234,8 @@
             .quem-somos-content { padding: 18px 12px; }
             .quem-somos-content h1 { font-size: 1.5rem; }
             .carrossel-filho-container { height: 220px; }
-            .btn-pai { width: 36px; height: 36px; font-size: 1.1rem; }
+            .btn-pai { width: 32px; height: 32px; font-size: 1rem; }
+            .titulo-servico-ativo { font-size: 1.05rem; }
             .secao-branca { padding: 12px !important; margin-bottom: 8px; }
         }
     </style>
@@ -302,15 +313,15 @@
         <h2>Serviços Realizados</h2>
         <div class="carrossel-pai-wrapper secao-branca">
             
-            <!-- Setas de Navegação do Carrossel Pai (Categorias) -->
-            <button class="btn-pai btn-pai-voltar" onclick="mudarCategoriaPai(-1)">&#10094;</button>
-            <button class="btn-pai btn-pai-avancar" onclick="mudarCategoriaPai(1)">&#10095;</button>
-
             <div class="carrossel-pai-trilho" id="trilhoPai">
 
                 <!-- SLIDE PAI 1: DRYWALL -->
                 <div class="slide-pai">
-                    <h3 class="titulo-servico-ativo">Especialistas em Drywall</h3>
+                    <div class="header-carrossel-pai">
+                        <button class="btn-pai" onclick="mudarCategoriaPai(-1)">&#10094;</button>
+                        <h3 class="titulo-servico-ativo">Especialistas em Drywall</h3>
+                        <button class="btn-pai" onclick="mudarCategoriaPai(1)">&#10095;</button>
+                    </div>
                     <div class="carrossel-filho-container">
                         <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
                         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Sanca Fechada">
@@ -324,7 +335,11 @@
 
                 <!-- SLIDE PAI 2: PINTURA E ELÉTRICA -->
                 <div class="slide-pai">
-                    <h3 class="titulo-servico-ativo">Pintura e Elétrica</h3>
+                    <div class="header-carrossel-pai">
+                        <button class="btn-pai" onclick="mudarCategoriaPai(-1)">&#10094;</button>
+                        <h3 class="titulo-servico-ativo">Pintura e Elétrica</h3>
+                        <button class="btn-pai" onclick="mudarCategoriaPai(1)">&#10095;</button>
+                    </div>
                     <div class="carrossel-filho-container">
                         <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
                         <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Iluminação">
@@ -338,7 +353,11 @@
 
                 <!-- SLIDE PAI 3: PINTURA PREDIAL -->
                 <div class="slide-pai">
-                    <h3 class="titulo-servico-ativo">Pintura Predial e Residencial</h3>
+                    <div class="header-carrossel-pai">
+                        <button class="btn-pai" onclick="mudarCategoriaPai(-1)">&#10094;</button>
+                        <h3 class="titulo-servico-ativo">Pintura Predial e Residencial</h3>
+                        <button class="btn-pai" onclick="mudarCategoriaPai(1)">&#10095;</button>
+                    </div>
                     <div class="carrossel-filho-container">
                         <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
                         <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Pintor em Ação">
@@ -352,7 +371,11 @@
 
                 <!-- SLIDE PAI 4: REPAROS -->
                 <div class="slide-pai">
-                    <h3 class="titulo-servico-ativo">Reparos e Manutenção</h3>
+                    <div class="header-carrossel-pai">
+                        <button class="btn-pai" onclick="mudarCategoriaPai(-1)">&#10094;</button>
+                        <h3 class="titulo-servico-ativo">Reparos e Manutenção</h3>
+                        <button class="btn-pai" onclick="mudarCategoriaPai(1)">&#10095;</button>
+                    </div>
                     <div class="carrossel-filho-container">
                         <button class="btn-carrossel btn-voltar" onclick="mudarSlideFilho(this, -1)">&#10094;</button>
                         <img src="https://images.unsplash.com/photo-1581141849291-1125c7b692b5?auto=format&fit=crop&w=1200&q=80" class="carrossel-slide ativo" alt="Reparos">
