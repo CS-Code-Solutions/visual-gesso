@@ -30,7 +30,7 @@
             position: sticky; top: 0; z-index: 1000;
         }
         
-        .logo { background-color: transparent; padding: 5px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center; width: auto; }
+        .logo { background-color: transparent; padding: 5px 0; border-radius: 8px; display: flex; align-items: center; justify-content: flex-start; width: auto; }
         .logo img { height: 75px; max-width: 100%; object-fit: contain; transition: height 0.3s; display: block; }
         
         /* Botão Hambúrguer (Escondido por padrão no PC) */
@@ -45,6 +45,7 @@
             color: var(--texto-escuro);
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
 
         /* Navegação Desktop */
@@ -173,13 +174,15 @@
 
         /* Ajustes Responsivos para Telemóvel */
         @media (max-width: 768px) {
-            header { padding: 8px 15px; }
-            .logo img { height: 50px; } 
+            header { padding: 8px 15px; gap: 10px; }
+            
+            .logo { flex: 1; margin-right: 10px; }
+            .logo img { height: auto; max-height: 65px; width: 100%; max-width: 260px; object-fit: contain; } 
             
             nav.nav-desktop { display: none; }
             .hamburger-btn { display: flex; }
             
-            section { padding: 10px 3%; scroll-margin-top: 75px; }
+            section { padding: 10px 3%; scroll-margin-top: 85px; }
             .quem-somos-content { padding: 18px 12px; }
             .quem-somos-content h1 { font-size: 1.5rem; }
             .carrossel-container { height: 220px; }
